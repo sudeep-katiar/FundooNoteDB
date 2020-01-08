@@ -8,25 +8,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blblz.fundoonotes.dto.LoginDto;
 import com.blblz.fundoonotes.dto.UserDto;
 import com.blblz.fundoonotes.responses.Response;
 import com.blblz.fundoonotes.service.UserService;
 
 @RestController
-
+@RequestMapping("/users")
 public class UserLoginController {
 	
 	@Autowired
 	private UserService serviceimpl;
 	
-	@PostMapping("/adduser")
-	public ResponseEntity<Response> addUser(@RequestBody UserDto userdto)
+	@PostMapping("/register")
+	public ResponseEntity<Response> register(@RequestBody UserDto userdto)
 	{
 //		System.out.println("12");
 //		System.out.println(userdto.getFirstName());
-		return new ResponseEntity<Response>(serviceimpl.addUser(userdto),HttpStatus.OK);
+		return new ResponseEntity<Response>(serviceimpl.register(userdto),HttpStatus.OK);
 	}
 	
+	@PostMapping("/login")
+	public ResponseEntity<Response> login(@RequestBody LoginDto logindto)
+	{
+		return new ResponseEntity<Response>(serviceimpl.login(logindto),HttpStatus.OK);
+		
+	}
 	
 
 }
