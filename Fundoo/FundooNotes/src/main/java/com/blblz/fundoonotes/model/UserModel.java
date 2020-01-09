@@ -41,6 +41,32 @@ public class UserModel {
 
 	private Date creatorStamp;
 
+	
+
+	public UserModel(long id, @NotNull String firstname, @NotNull String lastname, @NotNull String username,
+			@NotNull String password, @NotNull String mobile, @NotNull String email, @NotNull boolean isVerified,
+			Date creatorStamp) {
+		super();
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.username = username;
+		this.password = password;
+		this.mobile = mobile;
+		this.email = email;
+		this.isVerified = isVerified;
+		this.creatorStamp = creatorStamp;
+	}
+
+	public UserModel(String firstName, String lastName, String email, String mobile, String password) {
+		super();
+		this.firstname = firstName;
+		this.lastname = lastName;
+		this.password = password;
+		this.mobile = mobile;
+		this.email = email;
+	}
+
 	public long getId() {
 		return id;
 	}
