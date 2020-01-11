@@ -1,0 +1,5 @@
+package com.blblz.fundoonotes.utility;
+
+public class EmailVerify {
+
+}

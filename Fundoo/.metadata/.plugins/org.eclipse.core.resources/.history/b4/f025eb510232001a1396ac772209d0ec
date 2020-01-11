@@ -1,0 +1,15 @@
+package com.blblz.fundoonotes.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.blblz.fundoonotes.model.UserModel;
+
+@Repository
+public interface UserRepository extends JpaRepository<UserModel, Long> {
+	
+	@Query(value="Select * from user_model where email = :email",nativeQuery = true)
+	UserModel findEmail(String email);
+
+}

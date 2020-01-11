@@ -37,11 +37,13 @@ public class UserModel {
 	private String email;
 
 	@NotNull
+	@Column(columnDefinition = "boolean default false")
 	private boolean isVerified;
 
 	private Date creatorStamp;
 
-	
+	public UserModel() {
+	}
 
 	public UserModel(long id, @NotNull String firstname, @NotNull String lastname, @NotNull String username,
 			@NotNull String password, @NotNull String mobile, @NotNull String email, @NotNull boolean isVerified,

@@ -5,6 +5,11 @@ public class Response {
 	private int status;
 	private String message;
 	private Object data;
+	
+	public Response(String message,int status) {
+		this.message = message;
+		this.status = status;
+	}
 
 	public Response(int status, String message, Object data) {
 		super();

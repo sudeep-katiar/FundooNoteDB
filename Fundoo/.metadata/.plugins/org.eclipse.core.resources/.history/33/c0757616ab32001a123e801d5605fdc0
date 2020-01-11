@@ -1,0 +1,11 @@
+package com.blblz.fundoonotes.utility;
+
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
+
+@Component
+public class EmailVerify {
+	
+	JavaMailSender mailsender;
+
+}

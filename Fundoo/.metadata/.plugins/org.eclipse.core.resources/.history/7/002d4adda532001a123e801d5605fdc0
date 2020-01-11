@@ -1,0 +1,16 @@
+package com.blblz.fundoonotes.utility;
+
+import com.auth0.jwt.algorithms.Algorithm;
+
+public class Jwt {
+	
+	private static final String secretkey = "SECRET";
+	
+	public String createToken(String email)
+	{
+		Algorithm algorithm = Algorithm.HMAC256(secretkey);
+	
+		return JWT.create().withClaim("email",email).sign(algorithm);
+	}
+
+}

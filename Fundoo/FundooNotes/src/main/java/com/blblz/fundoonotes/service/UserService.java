@@ -4,7 +4,6 @@ import com.blblz.fundoonotes.dto.LoginDto;
 import com.blblz.fundoonotes.dto.ResetPasswordDto;
 import com.blblz.fundoonotes.dto.UserDto;
 import com.blblz.fundoonotes.model.UserModel;
-import com.blblz.fundoonotes.responses.Response;
 
 public interface UserService {
 	
@@ -12,6 +11,10 @@ public interface UserService {
 
 	UserModel login(LoginDto logindto);
 
+	UserModel verify(String token);
+
+	UserModel forgetPassword(String email);
+	
 	UserModel resetPassword(ResetPasswordDto resetpassword, String token);
 
 }

@@ -1,0 +1,11 @@
+package com.blblz.fundoonotes.service;
+
+import org.springframework.http.HttpStatus;
+
+import com.blblz.fundoonotes.dto.UserDto;
+
+public interface UserService {
+	
+	HttpStatus addUser(UserDto userdto);
+
+}

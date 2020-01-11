@@ -1,0 +1,8 @@
+package com.blblz.fundoonotes.utility;
+
+import org.springframework.boot.autoconfigure.security.servlet.WebSecurityEnablerConfiguration;
+
+public class SecurityConfigurer extends WebSecurityEnablerConfiguration {
+	protected void configure()
+
+}

@@ -1,0 +1,10 @@
+package com.blblz.fundoonotes.utility;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class EmailVerify {
+	
+	
+
+}

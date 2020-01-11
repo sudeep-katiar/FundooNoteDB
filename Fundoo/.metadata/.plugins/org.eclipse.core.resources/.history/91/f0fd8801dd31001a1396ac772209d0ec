@@ -1,0 +1,7 @@
+package com.blblz.fundoonotes.service;
+
+public interface UserService {
+	
+	void register();
+
+}

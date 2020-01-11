@@ -1,0 +1,5 @@
+package com.blblz.fundoonotes.customexception;
+
+public class TokenNotFoundException {
+
+}

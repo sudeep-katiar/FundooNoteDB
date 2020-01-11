@@ -1,0 +1,5 @@
+package com.blblz.fundoonotes.configuration;
+
+public class ApplicationConfiguration {
+
+}
