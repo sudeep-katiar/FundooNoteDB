@@ -1,0 +1,40 @@
+package com.blblz.fundoonotes;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@SpringBootApplication
+@EnableSwagger2
+public class FundooNotesApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(FundooNotesApplication.class, args);
+	}
+	
+//	@Bean
+//	public Docket swaggerConfiguration()
+//	{
+//		return new Docket(DocumentationType.SWAGGER_2)
+//		.select()
+//		.paths(PathSelectors.ant("/users/*"))
+//		.apis(RequestHandlerSelectors.basePackage("com.blblz.fundoonotes"))
+//		.build()
+//		.apiInfo(apidetails());
+//	}
+//	
+//	private ApiInfo apidetails()
+//	{
+//		return new ApiInfo(
+//				"FundooNotes API",
+//				"API for fundoonotes",
+//				"1.0",
+//				"Free to use",
+//				new springfox.documentation.service.Contact("Sudeep", "https://", "sudeepkatiar@gmail.com")
+//				"API License",
+//				"https://",
+//				Collections.emptyList());
+//	}
+
+}

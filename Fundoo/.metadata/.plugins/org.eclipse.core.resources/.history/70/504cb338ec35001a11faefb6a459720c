@@ -1,0 +1,12 @@
+package com.blblz.fundoonotes.repository;
+
+import java.util.Date;
+
+public class NoteRepository {
+
+	public void insertData(String content, Date createdAt, String title, Date updatedAt, long id) {
+		
+		
+	}
+
+}

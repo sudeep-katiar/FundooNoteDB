@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.blblz.fundoonotes.dto.LoginDto;
 import com.blblz.fundoonotes.dto.ResetPasswordDto;
@@ -14,6 +15,7 @@ import com.blblz.fundoonotes.service.UserService;
 import com.blblz.fundoonotes.utility.EmailVerify;
 import com.blblz.fundoonotes.utility.Jwt;
 
+@Service
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
@@ -76,6 +78,7 @@ public class UserServiceImpl implements UserService {
 	public UserModel verify(String token) {
 		
 		long id = tokenGenerator.parseJwtToken(token);
+		System.out.println(id);
 		UserModel userInfo = repository.findById(id);
 		if (userInfo != null) {
 			if (!userInfo.isVerified()) {

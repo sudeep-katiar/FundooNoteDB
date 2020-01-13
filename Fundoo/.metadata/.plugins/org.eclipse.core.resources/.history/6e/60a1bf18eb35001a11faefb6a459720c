@@ -1,0 +1,23 @@
+package com.blblz.fundoonotes.serviceimplementation;
+
+import org.springframework.stereotype.Service;
+
+import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.service.NoteService;
+
+@Service
+public class NoteServiceImpl implements NoteService {
+
+	@Override
+	public boolean save(NoteDto noteDto, String token) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean color(String color, String token, long id) {
+		
+		return false;
+	}
+
+}

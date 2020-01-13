@@ -1,0 +1,5 @@
+package com.blblz.fundoonotes.dto;
+
+public class NoteDto {
+
+}

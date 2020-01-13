@@ -1,0 +1,23 @@
+package com.blblz.fundoonotes.repository;
+
+import java.util.Date;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.blblz.fundoonotes.model.NoteModel;
+import com.blblz.fundoonotes.model.UserModel;
+
+@Repository
+@Transactional
+public interface NoteRepository extends JpaRepository<NoteModel, Long> {
+
+	@Modifying
+	@Query(value = "insert into note (content, created_at,  title, updated_at, created_by_id) values ( :content, :createdAt, :title, :updatedAt, :createdBy)" , nativeQuery = true)
+	public void insertData(String content, Date createdAt, String title, Date updatedAt, UserModel createdBy);
+
+}

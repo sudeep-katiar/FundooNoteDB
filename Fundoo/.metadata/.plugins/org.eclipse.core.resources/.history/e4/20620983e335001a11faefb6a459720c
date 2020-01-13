@@ -1,0 +1,9 @@
+package com.blblz.fundoonotes.service;
+
+import com.blblz.fundoonotes.dto.NoteDto;
+
+public interface NoteService {
+
+	boolean computeSave(NoteDto noteDto, String token);
+
+}

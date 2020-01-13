@@ -1,0 +1,20 @@
+package com.blblz.fundoonotes.serviceimplementation;
+
+import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.service.NoteService;
+
+public class NoteServiceImpl implements NoteService {
+
+	@Override
+	public boolean save(NoteDto noteDto, String token) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean color(String color, String token, long id) {
+		
+		return false;
+	}
+
+}
