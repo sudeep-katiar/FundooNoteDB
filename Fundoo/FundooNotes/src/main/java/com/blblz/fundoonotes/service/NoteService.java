@@ -1,11 +1,15 @@
 package com.blblz.fundoonotes.service;
 
 import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.model.NoteModel;
+import com.blblz.fundoonotes.responses.Response;
 
 public interface NoteService {
 
-	boolean save(NoteDto noteDto, String token);
+	public NoteModel createNote(NoteDto createdto, String token);
 
-	boolean color(String color, String token, long noteId);
+	public int deleteNote(String token, long id);
+
+	public Response deleteForever(String token, long id);
 
 }

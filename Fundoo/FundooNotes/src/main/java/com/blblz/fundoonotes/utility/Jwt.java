@@ -26,5 +26,5 @@ public class Jwt {
 		Claim claim = JWT.require(Algorithm.HMAC256(secretkey)).build().verify(token).getClaim("email");
 		return claim.asLong();
 	}
-
+	
 }

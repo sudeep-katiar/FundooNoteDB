@@ -1,0 +1,64 @@
+package com.blblz.fundoonotes.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.responses.Response;
+import com.blblz.fundoonotes.service.NoteService;
+
+@RestController
+@RequestMapping("/notes")
+public class NoteController {
+	
+	@Autowired
+	private NoteService noteservice;
+	
+	@PostMapping("/create")
+	private ResponseEntity<Response> createNote(@RequestBody NoteDto notedto,@RequestHeader String token)
+			throws Exception {
+		
+		boolean result = noteservice.createNote(notedto, token);
+		if (result) {
+			return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "Note is created successfully", noteservice.createNote(notedto, token)));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("Something went wrong", 400));
+		}
+	}
+	
+	@PutMapping("/delete/{id}")
+	private ResponseEntity<Response> delete(@PathVariable("id") long noteId, @RequestHeader("token") String token) {
+		int result = noteservice.delete(token, noteId);
+		if (result == 1) {
+			return ResponseEntity.status(HttpStatus.OK).body(new Response("succussfully restored", 200));
+		} else if (result == 0) {
+			return ResponseEntity.status(HttpStatus.OK).body(new Response("succussfully moved to trash ", 200));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("Something went wrong", 400));
+		}
+	}
+	
+	@GetMapping("/color/{id}")
+	private ResponseEntity<Response> color(@PathVariable("id") long noteId, @RequestParam String color,
+			@RequestHeader("token") String token) {
+
+		boolean result = noteservice.color(color, token, noteId);
+		if (result) {
+			return ResponseEntity.status(HttpStatus.OK).body(new Response("Color changed succussfully", 200));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("Something went wrong", 400));
+		}
+
+	}
+	
+}

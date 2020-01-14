@@ -8,6 +8,7 @@ import com.blblz.fundoonotes.model.NoteModel;
 import com.blblz.fundoonotes.model.UserModel;
 import com.blblz.fundoonotes.repository.NoteRepository;
 import com.blblz.fundoonotes.repository.UserRepository;
+import com.blblz.fundoonotes.responses.Response;
 import com.blblz.fundoonotes.service.NoteService;
 import com.blblz.fundoonotes.utility.Jwt;
 
@@ -24,7 +25,7 @@ public class NoteServiceImpl implements NoteService {
 	private NoteRepository noteRepository;
 
 	@Override
-	public boolean save(NoteDto noteDto, String token) {
+	public NoteModel createNote(NoteDto noteDto, String token) {
 		long id = tokenGenerator.parseJwtToken(token);
 		UserModel user = userRepository.findById(id);
 		if (user != null) {
@@ -32,22 +33,38 @@ public class NoteServiceImpl implements NoteService {
 			note.setCreatedBy(user);
 			note.setCreatedAt();
 			noteRepository.insertData(note.getContent(), note.getCreatedAt(), note.getTitle(), note.getUpdatedAt(),note.getCreatedBy().getId());
-			return true;
+			return note;
 		}
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean color(String color, String token, long noteId) {
+	public int deleteNote(String token, long id) {
 		long userId = tokenGenerator.parseJwtToken(token);
 		UserModel user = userRepository.findById(userId);
 		if (user != null)
 		{
-			noteRepository.updateColor(color, userId, noteId);
-			return true;
+			NoteModel note = noteRepository.findById(id);
+			if(note.isDeleted())
+			{
+				System.out.println("isdeleted false "+user+" "+ id);
+				
+				return noteRepository.delete(false, userId, id);
+			}
+			else
+			{
+				System.out.println("isdeleted true "+userId+" "+id);
+				noteRepository.delete(true, userId, id);
+				return 0;
+			}
 		}
-		return false;
+		return -1;
+	}
+
+	@Override
+	public Response deleteForever(String token, long id) {
 		
+		return null;
 	}
 
 }

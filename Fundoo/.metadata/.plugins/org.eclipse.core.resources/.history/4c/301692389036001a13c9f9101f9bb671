@@ -1,0 +1,14 @@
+package com.blblz.fundoonotes.service;
+
+import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.responses.Response;
+
+public interface NoteService {
+
+	public Response createNote(NoteDto createdto, String token);
+
+	
+
+	
+
+}

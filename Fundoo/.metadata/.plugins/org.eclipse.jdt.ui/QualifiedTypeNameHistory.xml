@@ -42,10 +42,7 @@
 <fullyQualifiedTypeName name="springfox.documentation.schema.Collections"/>
 <fullyQualifiedTypeName name="org.hibernate.engine.internal.Collections"/>
 <fullyQualifiedTypeName name="javax.persistence.Entity"/>
-<fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
-<fullyQualifiedTypeName name="com.blblz.fundoonotes.responses.Response"/>
 <fullyQualifiedTypeName name="com.blblz.fundoonotes.service.NoteService"/>
-<fullyQualifiedTypeName name="com.blblz.fundoonotes.model.NoteModel"/>
 <fullyQualifiedTypeName name="com.blblz.fundoonotes.utility.Jwt"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
@@ -57,7 +54,10 @@
 <fullyQualifiedTypeName name="com.blblz.fundoonotes.model.UserModel"/>
 <fullyQualifiedTypeName name="org.slf4j.Logger"/>
 <fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
-<fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
+<fullyQualifiedTypeName name="com.blblz.fundoonotes.model.NoteModel"/>
+<fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
 <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Modifying"/>
+<fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
+<fullyQualifiedTypeName name="com.blblz.fundoonotes.responses.Response"/>
 </qualifiedTypeNameHistroy>

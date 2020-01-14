@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
 	public UserModel verify(String token) {
 		
 		long id = tokenGenerator.parseJwtToken(token);
-		System.out.println(id);
+//		System.out.println(id);
 		UserModel userInfo = repository.findById(id);
 		if (userInfo != null) {
 			if (!userInfo.isVerified()) {
