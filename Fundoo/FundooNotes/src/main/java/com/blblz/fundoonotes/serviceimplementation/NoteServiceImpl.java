@@ -1,5 +1,7 @@
 package com.blblz.fundoonotes.serviceimplementation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +10,12 @@ import com.blblz.fundoonotes.model.NoteModel;
 import com.blblz.fundoonotes.model.UserModel;
 import com.blblz.fundoonotes.repository.NoteRepository;
 import com.blblz.fundoonotes.repository.UserRepository;
-import com.blblz.fundoonotes.responses.Response;
 import com.blblz.fundoonotes.service.NoteService;
 import com.blblz.fundoonotes.utility.Jwt;
 
 @Service
 public class NoteServiceImpl implements NoteService {
-	
+
 	@Autowired
 	private Jwt tokenGenerator;
 
@@ -32,7 +33,8 @@ public class NoteServiceImpl implements NoteService {
 			NoteModel note = new NoteModel(noteDto.getTitle(), noteDto.getContent());
 			note.setCreatedBy(user);
 			note.setCreatedAt();
-			noteRepository.insertData(note.getContent(), note.getCreatedAt(), note.getTitle(), note.getUpdatedAt(),note.getCreatedBy().getId());
+			noteRepository.insertData(note.getContent(), note.getCreatedAt(), note.getTitle(), note.getUpdatedAt(),
+					note.getCreatedBy().getId());
 			return note;
 		}
 		return null;
@@ -42,18 +44,14 @@ public class NoteServiceImpl implements NoteService {
 	public int deleteNote(String token, long id) {
 		long userId = tokenGenerator.parseJwtToken(token);
 		UserModel user = userRepository.findById(userId);
-		if (user != null)
-		{
+		if (user != null) {
 			NoteModel note = noteRepository.findById(id);
-			if(note.isDeleted())
-			{
-				System.out.println("isdeleted false "+user+" "+ id);
-				
+			if (note.isDeleted()) {
+				System.out.println("isdeleted false " + user + " " + id);
+
 				return noteRepository.delete(false, userId, id);
-			}
-			else
-			{
-				System.out.println("isdeleted true "+userId+" "+id);
+			} else {
+				System.out.println("isdeleted true " + userId + " " + id);
 				noteRepository.delete(true, userId, id);
 				return 0;
 			}
@@ -62,9 +60,90 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public Response deleteForever(String token, long id) {
-		
+	public boolean deleteForever(String token, long id) {
+		long userId = tokenGenerator.parseJwtToken(token);
+		UserModel user = userRepository.findById(userId);
+		if (user != null) {
+			NoteModel note = noteRepository.findById(id);
+
+			if (note.isDeleted()) {
+				noteRepository.deleteForever(userId, id);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateNote(NoteDto notedto, String token, long id) {
+		long userid = tokenGenerator.parseJwtToken(token);
+		UserModel user = userRepository.findById(userid);
+		if (user != null) {
+			NoteModel note = noteRepository.findById(id);
+			note.setContent(notedto.getContent());
+			note.setTitle(notedto.getTitle());
+			note.setUpdatedAt();
+			noteRepository.updateData(note.getContent(), note.getTitle(), note.getUpdatedAt(), id, id);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int pin(String token, long id) {
+		long userid = tokenGenerator.parseJwtToken(token);
+		UserModel user = userRepository.findById(userid);
+		if (user != null) {
+			NoteModel note = noteRepository.findById(id);
+			if (note.isPinned()) {
+				noteRepository.setPinned(false, userid, id);
+				return 1;
+			} else if (!note.isPinned()) {
+				noteRepository.setArchive(false, userid, id);
+				noteRepository.setPinned(true, userid, id);
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public int archive(String token, long id) {
+		long userid = tokenGenerator.parseJwtToken(token);
+		UserModel user = userRepository.findById(userid);
+		if (user != null) {
+			NoteModel note = noteRepository.findById(id);
+			if (note.isArchived()) {
+				noteRepository.setArchive(false, userid, id);
+				return 1;
+			} else if (!note.isArchived()) {
+				noteRepository.setPinned(false, userid, id);
+				noteRepository.setArchive(true, userid, id);
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+		return -1;
+	}
+
+	@Override
+	public List<NoteModel> getAllNotes(String token) {
+		Long userId = tokenGenerator.parseJwtToken(token);
+		Object isUserAvailable = userRepository.findById(userId);
+		if (isUserAvailable != null) {
+			List<NoteModel> notes = noteRepository.getAll(userId);
+			return notes;
+		}
 		return null;
+	}
+
+	@Override
+	public boolean reminder(String token, long id) {
+		
+		return false;
 	}
 
 }

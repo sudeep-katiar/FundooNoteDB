@@ -1,6 +1,7 @@
 package com.blblz.fundoonotes.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -26,6 +27,24 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 	@Query(value = "update note set is_deleted = :b where user_id = :userid AND id = :id" ,  nativeQuery = true)
 	public int delete(boolean b,long userid,long id);
 
-	
+	@Modifying
+	@Query(value = "delete from note  where user_id = :userId AND id = :id", nativeQuery = true)
+	void deleteForever(long userId, long id);
+
+	@Modifying
+	@Query(value = "update note set content = :content , title = :title , updated_at = :updatedAt where user_id = :id AND id = :id2", nativeQuery = true)
+	void updateData(String content, String title, Date updatedAt, long id, long id2);
+
+	@Modifying
+	@Query(value = "update note set is_pinned = :b where user_id = :userid AND id = :id", nativeQuery = true)
+	void setPinned(boolean b, long userid, long id);
+
+	@Modifying
+	@Query(value = "update note set is_archived = :b where user_id = :userid AND id = :id", nativeQuery = true)
+	void setArchive(boolean b, long userid, long id);
+
+	@Modifying
+	@Query(value = "select * from note where user_id = :userId", nativeQuery = true)
+	List<NoteModel> getAll(Long userId);
 	
 }

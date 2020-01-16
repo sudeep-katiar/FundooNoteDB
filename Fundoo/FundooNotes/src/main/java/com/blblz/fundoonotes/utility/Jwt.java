@@ -15,7 +15,9 @@ public class Jwt {
 	{
 		Algorithm algorithm = Algorithm.HMAC256(secretkey);
 	
-		return JWT.create().withClaim("email",l).sign(algorithm);
+		return JWT.create()
+				.withClaim("email",l)
+				.sign(algorithm);
 	}
 	
 	public long parseJwtToken(String token)
@@ -23,7 +25,10 @@ public class Jwt {
 		/**
 		 * The Claim class holds the value in a generic way so that it can be recovered in many representations.
 		 */
-		Claim claim = JWT.require(Algorithm.HMAC256(secretkey)).build().verify(token).getClaim("email");
+		Claim claim = JWT.require(Algorithm.HMAC256(secretkey))
+				.build()
+				.verify(token)
+				.getClaim("email");
 		return claim.asLong();
 	}
 	
