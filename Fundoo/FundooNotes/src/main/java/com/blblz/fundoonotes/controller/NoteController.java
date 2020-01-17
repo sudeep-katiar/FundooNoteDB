@@ -34,7 +34,7 @@ public class NoteController {
 	}
 
 	@PostMapping("/deleteORrestore")
-	public ResponseEntity<Response> deleteNote(@RequestBody @RequestParam String token, @RequestParam long id) {
+	public ResponseEntity<Response> deleteNote(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id) {
 
 		int result = noteservice.deleteNote(token, id);
 		if (result == 1) {
@@ -57,6 +57,18 @@ public class NoteController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(new Response("Something went wrong can't delete", 400));
 		}
+	}
+	
+	@PostMapping("/emptybin")
+	public ResponseEntity<Response> emptyBin(@RequestBody @RequestParam("token") String token)
+	{
+		boolean result = noteservice.emptybin(token);
+		if(result)
+		{
+			return ResponseEntity.status(HttpStatus.OK).body(new Response("succussfully deleted", 200));
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new Response("Something went wrong can't delete", 400));
 	}
 
 	@PostMapping("/updatenote")
@@ -82,7 +94,7 @@ public class NoteController {
 		}
 	}
 
-	@PostMapping("/notes/archive/{id}")
+	@PostMapping("/archive")
 	private ResponseEntity<Response> archive(@RequestBody @RequestParam("id") long id,
 			@RequestParam("token") String token) {
 
@@ -107,6 +119,12 @@ public class NoteController {
 	{
 		boolean result = noteservice.reminder(token, id);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response(200,"reminder added", result));
+	}
+	
+	public ResponseEntity<Response> collaborator()
+	{
+		
+		return null;
 	}
 
 }

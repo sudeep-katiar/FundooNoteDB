@@ -1,0 +1,77 @@
+package com.blblz.fundoonotes.model;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+
+@Entity
+public class LabelModel {
+	
+	@Id
+	private String labelId;
+	
+	@NotBlank
+	private String email;
+	
+	@NotBlank
+	private String labelTitle;
+	
+	private Date localdatetime;
+	
+	private Date lastUpdateDate;
+
+	List<NoteModel>listnote=new ArrayList<>();
+
+	public String getLabelId() {
+		return labelId;
+	}
+
+	public void setLabelId(String labelId) {
+		this.labelId = labelId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getLabelTitle() {
+		return labelTitle;
+	}
+
+	public void setLabelTitle(String labelTitle) {
+		this.labelTitle = labelTitle;
+	}
+
+	public Date getLocaldatetime() {
+		return localdatetime;
+	}
+
+	public void setLocaldatetime(Date localdatetime) {
+		this.localdatetime = localdatetime;
+	}
+
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public List<NoteModel> getListnote() {
+		return listnote;
+	}
+
+	public void setListnote(List<NoteModel> listnote) {
+		this.listnote = listnote;
+	}
+
+}

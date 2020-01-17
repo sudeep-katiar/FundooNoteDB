@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aop-reference-model>
+<aop-project name="fundoonotes"/>
+<aop-project name="Fundoo"/>
 <aop-project name="FundooNotes"/>
 </aop-reference-model>

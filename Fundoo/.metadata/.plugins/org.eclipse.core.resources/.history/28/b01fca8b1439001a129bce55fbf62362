@@ -1,0 +1,11 @@
+package com.blblz.fundoonotes.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.blblz.fundoonotes.model.LabelModel;
+
+public interface LabelRepository extends JpaRepository<LabelModel, Long> {
+	
+	
+
+}

@@ -1,0 +1,20 @@
+package com.blblz.fundoonotes.repository;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.blblz.fundoonotes.model.LabelModel;
+
+@Repository
+@Transactional
+public interface LabelRepository extends JpaRepository<LabelModel, Long> {
+
+	@Query(value = "select * from label where Label_Title = :labelname", nativeQuery = true)
+	LabelModel findByName(String labelname);
+	
+	
+
+}

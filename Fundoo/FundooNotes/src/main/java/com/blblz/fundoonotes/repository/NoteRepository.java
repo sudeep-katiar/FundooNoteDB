@@ -18,6 +18,9 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 	
 	@Query(value = "select * from note where id = :id", nativeQuery = true)
 	NoteModel findById(long id);
+	
+	@Query(value = "select * from note where user_id = :userid", nativeQuery = true)
+	NoteModel findByuserid(long userid);
 
 	@Modifying
 	@Query(value = "insert into note (content, created_at,  title, updated_at, user_id) values ( :content, :createdAt, :title, :updatedAt, :id)" , nativeQuery = true)
@@ -43,8 +46,11 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 	@Query(value = "update note set is_archived = :b where user_id = :userid AND id = :id", nativeQuery = true)
 	void setArchive(boolean b, long userid, long id);
 
-	@Modifying
 	@Query(value = "select * from note where user_id = :userId", nativeQuery = true)
 	List<NoteModel> getAll(Long userId);
+
+	@Modifying
+	@Query(value = "delete from note where user_id = :userId and is_deleted = true", nativeQuery = true)
+	void empty(long userId);
 	
 }

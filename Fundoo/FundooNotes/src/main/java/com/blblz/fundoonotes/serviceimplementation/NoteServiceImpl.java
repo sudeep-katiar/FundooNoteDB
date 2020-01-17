@@ -47,11 +47,11 @@ public class NoteServiceImpl implements NoteService {
 		if (user != null) {
 			NoteModel note = noteRepository.findById(id);
 			if (note.isDeleted()) {
-				System.out.println("isdeleted false " + user + " " + id);
+//				System.out.println("isdeleted false " + user + " " + id);
 
 				return noteRepository.delete(false, userId, id);
 			} else {
-				System.out.println("isdeleted true " + userId + " " + id);
+//				System.out.println("isdeleted true " + userId + " " + id);
 				noteRepository.delete(true, userId, id);
 				return 0;
 			}
@@ -71,6 +71,18 @@ public class NoteServiceImpl implements NoteService {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	@Override
+	public boolean emptybin(String token) {
+		long userId = tokenGenerator.parseJwtToken(token);
+		UserModel user = userRepository.findById(userId);
+		if (user != null) {
+			noteRepository.empty(userId);
+			return true;
+		}
+
 		return false;
 	}
 

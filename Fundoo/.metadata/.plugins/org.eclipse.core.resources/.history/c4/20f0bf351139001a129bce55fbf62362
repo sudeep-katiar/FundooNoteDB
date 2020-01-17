@@ -1,0 +1,26 @@
+package com.blblz.fundoonotes.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.blblz.fundoonotes.dto.LabelDto;
+import com.blblz.fundoonotes.responses.Response;
+import com.blblz.fundoonotes.service.LabelService;
+
+@RestController
+@RequestMapping("/label")
+public class LabelController {
+	
+	@Autowired
+	private LabelService labelservice;
+	
+	public ResponseEntity<Response> createLabel(@RequestBody LabelDto labeldto)
+	{
+		
+		return null;
+	}
+
+}

@@ -1,0 +1,15 @@
+package com.blblz.fundoonotes.serviceimplementation;
+
+import com.blblz.fundoonotes.dto.LabelDto;
+import com.blblz.fundoonotes.model.LabelModel;
+import com.blblz.fundoonotes.service.LabelService;
+
+public class LabelServiceImpl implements LabelService {
+
+	@Override
+	public LabelModel createLabel(LabelDto labeldto, String token) {
+		
+		return null;
+	}
+
+}

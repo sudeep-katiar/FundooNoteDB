@@ -1,0 +1,11 @@
+package com.blblz.fundoonotes.service;
+
+import com.blblz.fundoonotes.dto.LabelDto;
+
+public interface LabelService {
+
+	int createLabel(LabelDto labeldto, String token);
+
+	int createOrMapWithNote(LabelDto labeldto, Long noteid, String token);
+
+}

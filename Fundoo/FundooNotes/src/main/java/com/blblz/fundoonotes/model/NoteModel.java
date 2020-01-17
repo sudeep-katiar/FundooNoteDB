@@ -1,6 +1,7 @@
 package com.blblz.fundoonotes.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -43,9 +45,12 @@ public class NoteModel {
 	@Column(columnDefinition = "varchar(10) default '#ffffff'")
 	private String NoteColor;
 
-	private Date localReminder;
+	private Date reminder;
 
-	private String localReminderStatus;
+	private String reminderStatus;
+	
+	@ManyToMany
+	private List<LabelModel> labels;
 
 	public NoteModel() {
 
@@ -113,22 +118,40 @@ public class NoteModel {
 		NoteColor = noteColor;
 	}
 
-	public Date getLocalReminder() {
-		return localReminder;
+	public Date getReminder() {
+		return reminder;
 	}
 
-	public void setLocalReminder(Date localReminder) {
-		this.localReminder = localReminder;
+	public void setReminder(Date reminder) {
+		this.reminder = reminder;
 	}
 
-	public String getLocalReminderStatus() {
-		return localReminderStatus;
+	public String getReminderStatus() {
+		return reminderStatus;
 	}
 
-	public void setLocalReminderStatus(String localReminderStatus) {
-		this.localReminderStatus = localReminderStatus;
+	public void setReminderStatus(String reminderStatus) {
+		this.reminderStatus = reminderStatus;
 	}
 	
+	public NoteModel(long id, String title, String content, boolean isPinned, boolean isArchived, boolean isDeleted,
+			Date createdAt, Date updatedAt, UserModel createdBy, String noteColor, Date reminder,
+			String reminderStatus) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.isPinned = isPinned;
+		this.isArchived = isArchived;
+		this.isDeleted = isDeleted;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.createdBy = createdBy;
+		NoteColor = noteColor;
+		this.reminder = reminder;
+		this.reminderStatus = reminderStatus;
+	}
+
 	public boolean isPinned() {
 		return isPinned;
 	}

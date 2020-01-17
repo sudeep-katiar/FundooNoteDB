@@ -1,0 +1,10 @@
+package com.blblz.fundoonotes.service;
+
+import com.blblz.fundoonotes.dto.LabelDto;
+import com.blblz.fundoonotes.model.LabelModel;
+
+public interface LabelService {
+
+	LabelModel createLabel(LabelDto labeldto, String token);
+
+}
