@@ -1,10 +1,13 @@
 package com.blblz.fundoonotes.service;
 
+import org.springframework.stereotype.Component;
+
 import com.blblz.fundoonotes.dto.LoginDto;
 import com.blblz.fundoonotes.dto.ResetPasswordDto;
 import com.blblz.fundoonotes.dto.UserDto;
 import com.blblz.fundoonotes.model.UserModel;
 
+@Component
 public interface UserService {
 	
 	UserModel register(UserDto userdto);

@@ -1,5 +1,7 @@
 package com.blblz.fundoonotes.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.blblz.fundoonotes.dto.LabelDto;
@@ -10,8 +12,12 @@ public interface LabelService {
 
 	int createLabel(LabelDto labeldto, String token);
 
-	LabelModel updateLabel(LabelDto labeldto, String token, long labelId);
+	boolean updateLabel(LabelDto labeldto, String token, long labelId);
 
-//	int createOrMapWithNote(LabelDto labeldto, long noteid, String token);
+	boolean deleteLabel(String token, long labelId);
+
+	List<LabelModel> getAllLabel(String token);
+
+	LabelModel createOrMapWithNote(LabelDto labeldto, long noteid, String token);
 
 }

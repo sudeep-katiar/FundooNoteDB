@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.model.LabelModel;
 import com.blblz.fundoonotes.model.NoteModel;
 import com.blblz.fundoonotes.model.UserModel;
 import com.blblz.fundoonotes.repository.NoteRepository;
@@ -157,5 +158,21 @@ public class NoteServiceImpl implements NoteService {
 		
 		return false;
 	}
+
+//	@Override
+//	public List<LabelModel> allLabelofOneNote(String token, long id) {
+//		long userId = tokenGenerator.parseJwtToken(token);
+//		UserModel user = userRepository.findById(userId);
+//		if(user != null)
+//		{
+//			NoteModel note = noteRepository.findById(id);
+//			if(note != null)
+//			{
+//				List<LabelModel> label = noteRepository.getLabelByNoteId(id);
+//				return label;
+//			}
+//		}
+//		return null;
+//	}
 
 }

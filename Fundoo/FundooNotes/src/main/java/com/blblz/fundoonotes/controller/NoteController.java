@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.model.LabelModel;
 import com.blblz.fundoonotes.model.NoteModel;
 import com.blblz.fundoonotes.responses.Response;
 import com.blblz.fundoonotes.service.NoteService;
@@ -114,11 +115,26 @@ public class NoteController {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "all notes of user", notesList));
 	}
 	
+	@PostMapping("/addcolor")
+	public ResponseEntity<Response> addColor(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id)
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("", 200));
+	}
+
+//	@PostMapping("/notelabel")
+//	public ResponseEntity<Response> getNoteLabel(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id)
+//	{
+//		List<LabelModel> noteList = noteservice.allLabelofOneNote(token, id);
+//		return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "Labels related to this note are below", noteList));
+//	}
+	
 	@PostMapping("/reminder")
 	public ResponseEntity<Response> reminder(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id)
 	{
 		boolean result = noteservice.reminder(token, id);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response(200,"reminder added", result));
+		if(result)
+			return ResponseEntity.status(HttpStatus.OK).body(new Response(200,"reminder added", result));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("something went wrong", 400));
 	}
 	
 	public ResponseEntity<Response> collaborator()
