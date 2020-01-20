@@ -125,4 +125,28 @@ public class LabelServiceImpl implements LabelService {
 		return null;
 	}
 
+	@Override
+	public LabelModel addLabelsToNote(String token, long labelid, long noteid) {
+		long userId = tokenGenerator.parseJwtToken(token);
+		UserModel user = userrepository.findById(userId);
+		if(user != null)
+		{
+			NoteModel note = noterepository.findById(noteid);
+			if(note != null)
+			{
+				LabelModel isLabelAvailable = labelrepository.findById(labelid, userId);
+				if(isLabelAvailable != null)
+				{
+					Object label = labelrepository.findoneByLabelIdAndNoteId(isLabelAvailable.getLabelId(), noteid);
+					if(label == null)
+					{
+						labelrepository.insertdatatomap(noteid, isLabelAvailable.getLabelId());
+					}
+					return isLabelAvailable;
+				}
+			}
+		}
+		return null;
+	}
+
 }

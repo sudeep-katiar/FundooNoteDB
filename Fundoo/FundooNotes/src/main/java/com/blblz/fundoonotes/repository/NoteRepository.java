@@ -53,6 +53,10 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 	@Query(value = "delete from note where user_id = :userId and is_deleted = true", nativeQuery = true)
 	void empty(long userId);
 
+	@Modifying
+	@Query(value = "update note set note_color = :color where user_id = :userid and id = :id", nativeQuery = true)
+	void updateColor(long userid, long id, String color);
+
 //	@Query(name = "tofindlabelfornote", nativeQuery = true)
 //	List<LabelModel> getLabelByNoteId(long id);
 	

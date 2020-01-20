@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blblz.fundoonotes.dto.NoteDto;
-import com.blblz.fundoonotes.model.LabelModel;
 import com.blblz.fundoonotes.model.NoteModel;
 import com.blblz.fundoonotes.responses.Response;
 import com.blblz.fundoonotes.service.NoteService;
@@ -35,7 +34,7 @@ public class NoteController {
 	}
 
 	@PostMapping("/deleteORrestore")
-	public ResponseEntity<Response> deleteNote(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id) {
+	public ResponseEntity<Response> deleteNote(@RequestParam("token") String token, @RequestParam("id") long id) {
 
 		int result = noteservice.deleteNote(token, id);
 		if (result == 1) {
@@ -48,7 +47,7 @@ public class NoteController {
 	}
 
 	@PostMapping("/deleteforever")
-	public ResponseEntity<Response> deleteNoteForever(@RequestBody @RequestParam("token") String token,
+	public ResponseEntity<Response> deleteNoteForever(@RequestParam("token") String token,
 			@RequestParam("id") long id) {
 
 		boolean result = noteservice.deleteForever(token, id);
@@ -61,12 +60,12 @@ public class NoteController {
 	}
 	
 	@PostMapping("/emptybin")
-	public ResponseEntity<Response> emptyBin(@RequestBody @RequestParam("token") String token)
+	public ResponseEntity<Response> emptyBin(@RequestParam("token") String token)
 	{
 		boolean result = noteservice.emptybin(token);
 		if(result)
 		{
-			return ResponseEntity.status(HttpStatus.OK).body(new Response("succussfully deleted", 200));
+			return ResponseEntity.status(HttpStatus.OK).body(new Response("successfully deleted", 200));
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(new Response("Something went wrong can't delete", 400));
@@ -84,7 +83,7 @@ public class NoteController {
 	}
 
 	@PostMapping("/pinunpin")
-	public ResponseEntity<Response> pin(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id) {
+	public ResponseEntity<Response> pin(@RequestParam("token") String token, @RequestParam("id") long id) {
 		int result = noteservice.pin(token, id);
 		if (result == 1) {
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("succussfully unPinned", 200));
@@ -96,8 +95,7 @@ public class NoteController {
 	}
 
 	@PostMapping("/archive")
-	private ResponseEntity<Response> archive(@RequestBody @RequestParam("id") long id,
-			@RequestParam("token") String token) {
+	private ResponseEntity<Response> archive(@RequestParam("id") long id, @RequestParam("token") String token) {
 
 		int result = noteservice.archive(token, id);
 		if (result == 1) {
@@ -116,20 +114,16 @@ public class NoteController {
 	}
 	
 	@PostMapping("/addcolor")
-	public ResponseEntity<Response> addColor(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id)
+	public ResponseEntity<Response> addColor(@RequestParam("token") String token, @RequestParam("id") long id,@RequestParam("color") String color)
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("", 200));
+		boolean result = noteservice.addcolor(token, id, color);
+		if(result)
+			return ResponseEntity.status(HttpStatus.OK).body(new Response("color is added", 200));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Something went wrong...", 400));
 	}
-
-//	@PostMapping("/notelabel")
-//	public ResponseEntity<Response> getNoteLabel(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id)
-//	{
-//		List<LabelModel> noteList = noteservice.allLabelofOneNote(token, id);
-//		return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "Labels related to this note are below", noteList));
-//	}
 	
 	@PostMapping("/reminder")
-	public ResponseEntity<Response> reminder(@RequestBody @RequestParam("token") String token, @RequestParam("id") long id)
+	public ResponseEntity<Response> reminder(@RequestParam("token") String token, @RequestParam("id") long id)
 	{
 		boolean result = noteservice.reminder(token, id);
 		if(result)
@@ -141,6 +135,13 @@ public class NoteController {
 	{
 		
 		return null;
+	}
+	
+	public ResponseEntity<Response> sort()
+	{
+//		boolean result = noteservice.sort();
+//		if(result)
+			return null;
 	}
 
 }

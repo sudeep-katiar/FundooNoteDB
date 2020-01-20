@@ -31,13 +31,10 @@ public class UserLoginController {
 
 	@PostMapping("/register")
 	public ResponseEntity<Response> register(@RequestBody UserDto userdto) {
-//		System.out.println("12");
-//		System.out.println(userdto.getFirstName());
+		
 		UserModel user = userservice.register(userdto);
-
 		if (user != null) {
-			// return new
-			// ResponseEntity<Response>(serviceimpl.register(userdto),HttpStatus.OK);
+			
 			return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "registration successfull", user));
 		} else {
 			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED)

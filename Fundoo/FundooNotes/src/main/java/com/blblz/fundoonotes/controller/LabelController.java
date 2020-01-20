@@ -41,7 +41,7 @@ public class LabelController {
 	}
 	
 	@PostMapping("/deletelabel")
-	public ResponseEntity<Response> deleteLabel(@RequestBody @RequestParam("token") String token, @RequestParam("labelId") long labelId)
+	public ResponseEntity<Response> deleteLabel(@RequestParam("token") String token, @RequestParam("labelId") long labelId)
 	{
 		boolean result = labelService.deleteLabel(token, labelId);
 		if(result)
@@ -50,19 +50,28 @@ public class LabelController {
 	}
 	
 	@PostMapping("/alllabel")
-	public ResponseEntity<Response> getAllLabel(@RequestBody @RequestParam("token") String token)
+	public ResponseEntity<Response> getAllLabel(@RequestParam("token") String token)
 	{
 		List<LabelModel> labelList = labelService.getAllLabel(token);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "all labels of user", labelList));
 	}
 	
 	@PostMapping("/maptonote")
-	public ResponseEntity<Response> mapToNote(@RequestBody LabelDto labeldto, @RequestParam("noteid") Long noteid, @RequestParam("token") String token)
+	public ResponseEntity<Response> mapToNote(@RequestBody LabelDto labeldto,@RequestParam("token") String token, @RequestParam("noteid") Long noteid)
 	{
 		LabelModel result = labelService.createOrMapWithNote(labeldto, noteid, token);
 		if(result != null)
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("Label is mapped to note", 200));
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("The label you are trying to create is already exist!!!", 400));
+	}
+	
+	@PostMapping("/addLabelsToNote")
+	public ResponseEntity<Response> addLabels(@RequestParam("token") String token, @RequestParam("labelid") long labelid, @RequestParam("noteid") long noteid)
+	{
+		LabelModel result = labelService.addLabelsToNote(token, labelid, noteid);
+		if(result != null)
+			return ResponseEntity.status(HttpStatus.OK).body(new Response("label added", 200));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Something went wrong", 400));
 	}
 
 }

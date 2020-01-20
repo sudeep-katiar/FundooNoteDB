@@ -20,4 +20,6 @@ public interface LabelService {
 
 	LabelModel createOrMapWithNote(LabelDto labeldto, long noteid, String token);
 
+	LabelModel addLabelsToNote(String token, long labelid, long noteid);
+
 }

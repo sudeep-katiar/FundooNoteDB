@@ -32,12 +32,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserModel register(UserDto userdto) {
-
-//		System.out.println("1");
 		Date date = new Date();
-//		System.out.println(userdto.getEmail());
-//		System.out.println(repository.findEmail(userdto.getEmail()));
-		
 		UserModel emailavailable = repository.findEmail(userdto.getEmail());
 		if (emailavailable == null) {
 			UserModel userDetails = new UserModel(userdto.getFirstName(), userdto.getLastName(), userdto.getEmail(),
@@ -46,18 +41,12 @@ public class UserServiceImpl implements UserService {
 			userDetails.setVerified(false);
 			userDetails.setPassword(bcryptpasswordEncoder.encode(userDetails.getPassword()));
 
-//			System.out.println(userDetails.isVerified());
-//			System.out.println("entering inside");
-
 			repository.insertdata(date, userdto.getEmail(), userdto.getFirstName(), false, userdto.getLastName(),
 					userdto.getMobile(), bcryptpasswordEncoder.encode(userdto.getPassword()), userdto.getUserName());
 
 			UserModel sendMail = repository.findEmail(userdto.getEmail());
-//			UserModel sendMsg = repository.findmobile(userdto.getMobile());
-//			System.out.println(sendMail);
 			String response = "http://localhost:8080/users/verify/" + tokenGenerator.createToken(sendMail.getId());
 			mail.sendVerifyMail(sendMail.getEmail(), response);
-//			mail.sendmsg(sendMail.getMobile(), response);
 
 			return userDetails;
 		} else {
@@ -78,7 +67,6 @@ public class UserServiceImpl implements UserService {
 	public UserModel verify(String token) {
 		
 		long id = tokenGenerator.parseJwtToken(token);
-//		System.out.println(id);
 		UserModel userInfo = repository.findById(id);
 		if (userInfo != null) {
 			if (!userInfo.isVerified()) {

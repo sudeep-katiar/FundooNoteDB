@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blblz.fundoonotes.dto.NoteDto;
-import com.blblz.fundoonotes.model.LabelModel;
 import com.blblz.fundoonotes.model.NoteModel;
 import com.blblz.fundoonotes.model.UserModel;
 import com.blblz.fundoonotes.repository.NoteRepository;
@@ -144,7 +143,7 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public List<NoteModel> getAllNotes(String token) {
-		Long userId = tokenGenerator.parseJwtToken(token);
+		long userId = tokenGenerator.parseJwtToken(token);
 		Object isUserAvailable = userRepository.findById(userId);
 		if (isUserAvailable != null) {
 			List<NoteModel> notes = noteRepository.getAll(userId);
@@ -156,6 +155,26 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public boolean reminder(String token, long id) {
 		
+		return false;
+	}
+
+	@Override
+	public boolean addcolor(String token, long id, String color) {
+		try {
+		long userid = tokenGenerator.parseJwtToken(token);
+		UserModel isUserAvailable = userRepository.findById(userid);
+		if(isUserAvailable != null)
+		{
+			NoteModel note = noteRepository.findById(id);
+			if(note != null)
+			{
+				noteRepository.updateColor(userid, id, color);
+				return true;
+			}
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
