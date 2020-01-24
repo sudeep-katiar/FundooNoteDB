@@ -46,18 +46,18 @@
 <fullyQualifiedTypeName name="javax.persistence.GeneratedValue"/>
 <fullyQualifiedTypeName name="com.blblz.fundoonotes.dto.LabelDto"/>
 <fullyQualifiedTypeName name="com.blblz.fundoonotes.dto.NoteDto"/>
-<fullyQualifiedTypeName name="com.blblz.fundoonotes.model.UserModel"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
-<fullyQualifiedTypeName name="com.blblz.fundoonotes.model.NoteModel"/>
 <fullyQualifiedTypeName name="com.blblz.fundoonotes.repository.NoteRepository"/>
+<fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
+<fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Modifying"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
 <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
 <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
 <fullyQualifiedTypeName name="com.blblz.fundoonotes.responses.Response"/>
+<fullyQualifiedTypeName name="com.blblz.fundoonotes.model.UserModel"/>
 <fullyQualifiedTypeName name="com.blblz.fundoonotes.model.LabelModel"/>
-<fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Modifying"/>
-<fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
+<fullyQualifiedTypeName name="com.blblz.fundoonotes.model.NoteModel"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>
