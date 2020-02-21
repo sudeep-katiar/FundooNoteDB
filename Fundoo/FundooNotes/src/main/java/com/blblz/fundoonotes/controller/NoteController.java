@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +26,7 @@ public class NoteController {
 	private NoteService noteservice;
 
 	@PostMapping("/create")
-	private ResponseEntity<Response> createNote(@RequestBody NoteDto notedto, @RequestParam String token)
+	private ResponseEntity<Response> createNote(@RequestBody NoteDto notedto, @RequestHeader("token") String token)
 			throws Exception {
 
 		NoteModel note = noteservice.createNote(notedto, token);
@@ -33,8 +35,8 @@ public class NoteController {
 
 	}
 
-	@PostMapping("/deleteORrestore")
-	public ResponseEntity<Response> deleteNote(@RequestParam("token") String token, @RequestParam("id") long id) {
+	@PostMapping("/deleteORrestore/{id}")
+	public ResponseEntity<Response> deleteNote(@RequestHeader("token") String token, @PathVariable("id") long id) {
 
 		int result = noteservice.deleteNote(token, id);
 		if (result == 1) {
@@ -46,9 +48,9 @@ public class NoteController {
 		}
 	}
 
-	@PostMapping("/deleteforever")
-	public ResponseEntity<Response> deleteNoteForever(@RequestParam("token") String token,
-			@RequestParam("id") long id) {
+	@PostMapping("/deleteforever/{id}")
+	public ResponseEntity<Response> deleteNoteForever(@RequestHeader("token") String token,
+			@PathVariable("id") long id) {
 
 		boolean result = noteservice.deleteForever(token, id);
 		if (result) {
@@ -60,7 +62,7 @@ public class NoteController {
 	}
 	
 	@PostMapping("/emptybin")
-	public ResponseEntity<Response> emptyBin(@RequestParam("token") String token)
+	public ResponseEntity<Response> emptyBin(@RequestHeader("token") String token)
 	{
 		boolean result = noteservice.emptybin(token);
 		if(result)
@@ -71,9 +73,9 @@ public class NoteController {
 				.body(new Response("Something went wrong can't delete", 400));
 	}
 
-	@PostMapping("/updatenote")
-	public ResponseEntity<Response> updateNote(@RequestBody NoteDto notedto, @RequestParam("token") String token,
-			@RequestParam("id") long id) {
+	@PostMapping("/updatenote/{id}")
+	public ResponseEntity<Response> updateNote(@RequestBody NoteDto notedto, @RequestHeader("token") String token,
+			@PathVariable("id") long id) {
 		boolean result = noteservice.updateNote(notedto, token, id);
 		if (result) {
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("Note is update successfully", 200));
@@ -82,8 +84,8 @@ public class NoteController {
 		}
 	}
 
-	@PostMapping("/pinunpin")
-	public ResponseEntity<Response> pin(@RequestParam("token") String token, @RequestParam("id") long id) {
+	@PostMapping("/pinunpin/{id}")
+	public ResponseEntity<Response> pin(@RequestHeader("token") String token, @PathVariable("id") long id) {
 		int result = noteservice.pin(token, id);
 		if (result == 1) {
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("succussfully unPinned", 200));
@@ -94,8 +96,8 @@ public class NoteController {
 		}
 	}
 
-	@PostMapping("/archive")
-	private ResponseEntity<Response> archive(@RequestParam("id") long id, @RequestParam("token") String token) {
+	@PostMapping("/archive/{id}")
+	private ResponseEntity<Response> archive(@PathVariable("id") long id, @RequestHeader("token") String token) {
 
 		int result = noteservice.archive(token, id);
 		if (result == 1) {
@@ -107,14 +109,14 @@ public class NoteController {
 		}
 	}
 	
-	@PostMapping("/allnotes")
-	public ResponseEntity<Response> getAllNotes(@RequestParam("token") String token)  {
+	@PostMapping("/allnotes/")
+	public ResponseEntity<Response> getAllNotes(@RequestHeader("token") String token)  {
 		List<NoteModel> notesList = noteservice.getAllNotes(token);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "all notes of user", notesList));
 	}
 	
-	@PostMapping("/addcolor")
-	public ResponseEntity<Response> addColor(@RequestParam("token") String token, @RequestParam("id") long id,@RequestParam("color") String color)
+	@PostMapping("/addcolor/{id}")
+	public ResponseEntity<Response> addColor(@RequestHeader("token") String token, @PathVariable("id") long id,@RequestParam("color") String color)
 	{
 		boolean result = noteservice.addcolor(token, id, color);
 		if(result)
@@ -122,8 +124,8 @@ public class NoteController {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Something went wrong...", 400));
 	}
 	
-	@PostMapping("/reminder")
-	public ResponseEntity<Response> reminder(@RequestParam("token") String token, @RequestParam("id") long id)
+	@PostMapping("/reminder/{id}")
+	public ResponseEntity<Response> reminder(@RequestHeader("token") String token, @PathVariable("id") long id)
 	{
 		boolean result = noteservice.reminder(token, id);
 		if(result)

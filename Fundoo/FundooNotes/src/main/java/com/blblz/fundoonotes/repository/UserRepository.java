@@ -18,9 +18,6 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 	@Query(value="Select * from user_model where email = :email",nativeQuery = true)
 	UserModel findEmail(String email);
 	
-//	@Query(value="Select * from user_model where email = :mobile",nativeQuery = true)
-//	UserModel findmobile(String mobile);
-	
 	@Query(value = "select * from user_model where id = :id", nativeQuery = true)
 	UserModel findById(long id);
 

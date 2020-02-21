@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDto {
 	
-	private String firstName;
+	private String firstname;
 
-	private String lastName;
+	private String lastname;
 
-	private String userName;
+	private String username;
 
 	private String mobile;
 
@@ -17,28 +17,28 @@ public class UserDto {
 
 	private String email;
 
-	public String getFirstName() {
-		return firstName;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getMobile() {
