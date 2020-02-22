@@ -24,11 +24,11 @@ public interface NoteService {
 
 	public List<NoteModel> getAllNotes(String token);
 
-	public boolean reminder(String token, long id);
-
 	public boolean emptybin(String token);
 
 	public boolean addcolor(String token, long id, String color);
+
+	boolean reminder(String token, Long id, String time);
 
 //	public List<LabelModel> allLabelofOneNote(String token, long id);
 

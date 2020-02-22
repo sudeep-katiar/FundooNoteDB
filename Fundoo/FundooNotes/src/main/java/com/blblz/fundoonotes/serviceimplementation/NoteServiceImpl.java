@@ -1,6 +1,7 @@
 package com.blblz.fundoonotes.serviceimplementation;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -152,9 +153,17 @@ public class NoteServiceImpl implements NoteService {
 		return null;
 	}
 
-	@Override
-	public boolean reminder(String token, long id) {
-		
+	@SuppressWarnings("unlikely-arg-type")
+	public boolean reminder(String token, Long id, String time) {
+	    long userId=tokenGenerator.parseJwtToken(token);
+	    UserModel user = userRepository.findById(userId);
+	    if (user != null) {
+	    	Optional<NoteModel>  note = noteRepository.findById(id);
+	    	if((note.get()).getCreatedBy().equals(userId)) {
+	    		(note.get()).setReminder(time);
+	    		return true;
+	    	}
+	    }
 		return false;
 	}
 

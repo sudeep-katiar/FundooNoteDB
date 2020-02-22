@@ -45,7 +45,7 @@ public class NoteModel {
 	@Column(columnDefinition = "varchar(10) default '#ffffff'")
 	private String NoteColor;
 
-	private Date reminder;
+	private String reminder;
 
 	private String reminderStatus;
 	
@@ -118,12 +118,12 @@ public class NoteModel {
 		NoteColor = noteColor;
 	}
 
-	public Date getReminder() {
+	public String getReminder() {
 		return reminder;
 	}
 
-	public void setReminder(Date reminder) {
-		this.reminder = reminder;
+	public void setReminder(String time) {
+		this.reminder = time;
 	}
 
 	public String getReminderStatus() {
@@ -135,7 +135,7 @@ public class NoteModel {
 	}
 	
 	public NoteModel(long id, String title, String content, boolean isPinned, boolean isArchived, boolean isDeleted,
-			Date createdAt, Date updatedAt, UserModel createdBy, String noteColor, Date reminder,
+			Date createdAt, Date updatedAt, UserModel createdBy, String noteColor, String reminder,
 			String reminderStatus) {
 		super();
 		this.id = id;

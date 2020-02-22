@@ -125,9 +125,9 @@ public class NoteController {
 	}
 	
 	@PostMapping("/reminder/{id}")
-	public ResponseEntity<Response> reminder(@RequestHeader("token") String token, @PathVariable("id") long id)
+	public ResponseEntity<Response> reminder(@RequestHeader("token") String token, @PathVariable("id") long id,@RequestParam("time")String time)
 	{
-		boolean result = noteservice.reminder(token, id);
+		boolean result = noteservice.reminder(token, id, time);
 		if(result)
 			return ResponseEntity.status(HttpStatus.OK).body(new Response(200,"reminder added", result));
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("something went wrong", 400));
