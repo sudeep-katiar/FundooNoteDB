@@ -1,0 +1,5 @@
+package com.blblz.fundoonotes.service;
+
+public interface CollaboratorService {
+
+}

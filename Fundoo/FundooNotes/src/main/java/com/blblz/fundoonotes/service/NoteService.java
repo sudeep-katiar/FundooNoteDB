@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.model.LabelModel;
 import com.blblz.fundoonotes.model.NoteModel;
 
 @Component
@@ -30,6 +31,8 @@ public interface NoteService {
 
 	boolean reminder(String token, Long id, String time);
 
-//	public List<LabelModel> allLabelofOneNote(String token, long id);
+	public List<NoteModel> allPinnedNotes(String token);
+
+	public List<LabelModel> allLabelofOneNote(String token, long id);
 
 }

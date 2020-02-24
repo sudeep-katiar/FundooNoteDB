@@ -1,0 +1,44 @@
+package com.blblz.fundoonotes.serviceimplementation;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.blblz.fundoonotes.dto.CollaboratorDto;
+import com.blblz.fundoonotes.model.CollaboratorModel;
+import com.blblz.fundoonotes.model.NoteModel;
+import com.blblz.fundoonotes.repository.CollaboratorRepository;
+import com.blblz.fundoonotes.repository.NoteRepository;
+import com.blblz.fundoonotes.repository.UserRepository;
+import com.blblz.fundoonotes.service.CollaboratorService;
+import com.blblz.fundoonotes.utility.Jwt;
+
+public class CollaboratorServiceImpl implements CollaboratorService {
+	
+	@Autowired
+	private Jwt jwtGenerator;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private NoteRepository noteRepository;
+
+	@Autowired
+	private CollaboratorRepository collaboratorRepository;
+
+
+	@Override
+	public CollaboratorModel addCollaborator(CollaboratorDto collaboratorDto, String token, long noteId) {
+		CollaboratorModel collaborator = new CollaboratorModel();
+		NoteModel note = noteRepository.findById(noteId);
+		CollaboratorModel collaboratorDB = collaboratorRepository.findOneByEmail(collaboratorDto.getEmail(), noteId);
+		if (note != null && collaboratorDB == null) {
+			BeanUtils.copyProperties(collaboratorDto, collaborator);
+			collaborator.setNote(note);
+			collaboratorRepository.addCollaborator(collaborator.getId(), collaborator.getEmail(), noteId);
+			return collaborator;
+		}
+		return null;
+	}
+
+}

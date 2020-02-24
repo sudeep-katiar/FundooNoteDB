@@ -52,6 +52,14 @@ public class NoteModel {
 	@ManyToMany
 	private List<LabelModel> labels;
 
+	public List<LabelModel> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(List<LabelModel> labels) {
+		this.labels = labels;
+	}
+
 	public NoteModel() {
 
 	}

@@ -7,4 +7,12 @@
 		<item key="DIALOG_HEIGHT" value="494"/>
 		<item key="DIALOG_FONT_NAME" value="1|Chilanka|11.0|0|GTK|1|"/>
 	</section>
+	<section name="expressionHistory">
+	</section>
+	<section name="org.eclipse.jdt.internal.debug.ui.ExpressionInformationControlCreator$ExpressionInformationControl">
+		<item key="WIDTH" value="704"/>
+		<item key="HEIGHT" value="210"/>
+		<item key="SashWeightTree" value="500"/>
+		<item key="SashWeightDetails" value="500"/>
+	</section>
 </section>

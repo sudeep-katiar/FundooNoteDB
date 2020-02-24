@@ -5,7 +5,187 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-02-21T06:49:21Z</updated>
+  <updated>2020-02-24T06:49:00Z</updated>
+  <entry>
+    <title>Netflix Built a Spring Application Generator to Boost Dev Productivity. Here's How You Can, Too.</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/02/24/netflix-built-a-spring-application-generator-to-boost-dev-productivity-here-s-how-you-can-too" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Ben Wilcock</name>
+    </author>
+    <id>tag:spring.io,2019-10-22:3844</id>
+    <updated>2020-02-24T06:49:00Z</updated>
+    <content type="html">&lt;p&gt;If you watch &lt;a href="https://youtu.be/mln3_o6qlBo"&gt;Taylor Wicksell of Netflix&amp;rsquo;s SpringOne Platform keynote&lt;/a&gt; you can’t help but be blown away by the sheer productivity of their engineering team. Last year, over 300 Spring-based apps went into production – an incredible achievement. &lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=mln3_o6qlBo"&gt;&lt;img src="http://img.youtube.com/vi/mln3_o6qlBo/maxresdefault.jpg" alt="Taylor Wicksell of Netflix&amp;rsquo;s SpringOne Platform Keynote" /&gt;&lt;/a&gt;&lt;/p&gt;&lt;h2&gt;&lt;a href="#what-can-your-enterprise-learn-from-netflix" class="anchor" name="what-can-your-enterprise-learn-from-netflix"&gt;&lt;/a&gt;What Can Your Enterprise Learn From Netflix?&lt;/h2&gt;
+&lt;p&gt;At Netflix, &lt;a href="https://twitter.com/TaylorWicksell"&gt;Taylor&lt;/a&gt; and his Java Platform team own the Java developer experience (DevEx). Taylor’s team has one mission: to help Netflix&amp;rsquo;s engineers stay productive – delivering great code at great velocity. It’s a mission that is clearly proving successful.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://static.spring.io/blog/bwilcock/20191001/keynote-slide.png" alt="Netflix&amp;rsquo;s Java Platform Team&amp;rsquo;s Top Technical Priorities" title="Application Generators are top of the list for improving productivity and commonality with the team at Netflix" /&gt;&lt;/p&gt;
+&lt;p&gt;Top of Taylor’s list of productivity secrets is &lt;em&gt;Application Generators&lt;/em&gt;. Netflix found that developers adopt platforms far quicker when everything they need to get started is right there, at their fingertips. Application generators help developers to get started quickly by providing useful guide rails that reduce toil and ease their burden. Application generators also encourage common approaches to common problems – particularly useful if you have lots of teams creating microservices at the same time.&lt;/p&gt;
+&lt;p&gt;Also high on Taylor&amp;rsquo;s list is &lt;em&gt;easing access to important libraries&lt;/em&gt;. Every enterprise has libraries - tools they rely on to simplify a task or take care of the plumbing. These libraries are quite important, often including proprietary business logic that’s both private and unique. Application generators can help developers to get easy access to these libraries without having to delve into docs, wade through wiki’s, or search in maven repositories.&lt;/p&gt;&lt;h2&gt;&lt;a href="#are-application-generators-useful" class="anchor" name="are-application-generators-useful"&gt;&lt;/a&gt;Are Application Generators Useful?&lt;/h2&gt;
+&lt;p&gt;Yes. You probably use an application generator already. The best example I can think of is &lt;a href="https://start.spring.io"&gt;start.spring.io&lt;/a&gt;, also known as the “Spring Initializr” (although others exist, such as &lt;a href="https://start.steeltoe.io/"&gt;this one for .Net applications&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Spring Initializr makes generating Spring Boot apps a cinch. The secret to its success is no secret at all: it’s superbly easy to use. You can use it &lt;a href="https://start.spring.io"&gt;in your browser&lt;/a&gt;, or directly from inside your IDE. You can even use it from the command line via cURL or &lt;a href="https://httpie.org/"&gt;HTTPie&lt;/a&gt; or from the &lt;a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#cli"&gt;Spring Boot CLI&lt;/a&gt; tool.&lt;/p&gt;&lt;h2&gt;&lt;a href="#build-your-own-application-generator" class="anchor" name="build-your-own-application-generator"&gt;&lt;/a&gt;Build Your Own Application Generator&lt;/h2&gt;
+&lt;p&gt;How? With Spring of course! There’s even a library for it. The library is also called &lt;a href="https://github.com/spring-io/initializr"&gt;Spring Initializr&lt;/a&gt;. It’s the core library that powers &lt;a href="https://start.spring.io"&gt;start.spring.io&lt;/a&gt; and it&amp;rsquo;s super easy to customize. In the rest of this article, we’ll walk through the steps required to create your own customized initializr. &lt;/p&gt;
+&lt;p&gt;To simulate what you would do inside your enterprise, in this tutorial we’ll narrow some of the application generation options and include some third-party libraries that the regular Spring Initializr doesn’t offer, namely the &lt;a href="https://axoniq.io/"&gt;Axon CQRS and Event Sourcing Framework&lt;/a&gt;. We’ll call our project the “Axon Initializr”.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;The full code from this tutorial can be found &lt;a href="https://github.com/benwilcock/axon-initializr"&gt;here on GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;h3&gt;&lt;a href="#step-one-create-a-spring-web-project" class="anchor" name="step-one-create-a-spring-web-project"&gt;&lt;/a&gt;Step One - Create a Spring “Web” Project&lt;/h3&gt;
+&lt;p&gt;At the risk of getting recursive, we can use the &lt;a href="https://start.spring.io"&gt;start.spring.io&lt;/a&gt; website to start building our custom Axon Initializr! &lt;/p&gt;
+&lt;p&gt;Using the website, create a project with the settings in the screenshot below. Use the latest GA version of Spring Boot and make sure you include the &lt;strong&gt;&amp;ldquo;web&amp;rdquo;&lt;/strong&gt; dependency. We’re building a RESTful web service, so we need those libraries present.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://static.spring.io/blog/bwilcock/20191001/browser-start.png" alt="Starting a new project at https://start.spring.io" title="Using your browser to create a Spring project at start.spring.io" /&gt;&lt;/p&gt;
+&lt;p&gt;Hit the green “Generate” button to download the project as a Zip file. Unpack the zip and open the generated project folder in your IDE or text editor. Now, we can begin to build our custom axon-initializr project.&lt;/p&gt;&lt;h3&gt;&lt;a href="#step-two-add-the-spring-initializr-library-as-a-dependency" class="anchor" name="step-two-add-the-spring-initializr-library-as-a-dependency"&gt;&lt;/a&gt;Step Two - Add the Spring Initializr Library As A Dependency&lt;/h3&gt;
+&lt;p&gt;We need to add a few entries to our Maven &lt;code&gt;pom.xml&lt;/code&gt; in order to include the Spring Initializr libraries in our project. In the POM, add a &lt;code&gt;dependencyManagement&lt;/code&gt; entry for the Spring Initializr as shown below:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint xml"&gt;    &amp;lt;dependencyManagement&amp;gt;&#xD;
+       &amp;lt;dependencies&amp;gt;&#xD;
+           &amp;lt;dependency&amp;gt;&#xD;
+               &amp;lt;groupId&amp;gt;io.spring.initializr&amp;lt;/groupId&amp;gt;&#xD;
+               &amp;lt;artifactId&amp;gt;initializr-bom&amp;lt;/artifactId&amp;gt;&#xD;
+               &amp;lt;version&amp;gt;0.8.0.RELEASE&amp;lt;/version&amp;gt;&#xD;
+               &amp;lt;type&amp;gt;pom&amp;lt;/type&amp;gt;&#xD;
+               &amp;lt;scope&amp;gt;import&amp;lt;/scope&amp;gt;&#xD;
+           &amp;lt;/dependency&amp;gt;&#xD;
+       &amp;lt;/dependencies&amp;gt;&#xD;
+   &amp;lt;/dependencyManagement&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, add a couple of extra Spring Initializr dependencies into our POM’s existing&lt;br/&gt;&lt;code&gt;&amp;lt;dependencies&amp;gt;&lt;/code&gt; section:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint xml"&gt;    &amp;lt;!-- Existing dependencies omitted here --&amp;gt;&#xD;
+    &amp;lt;dependency&amp;gt;&#xD;
+        &amp;lt;groupId&amp;gt;io.spring.initializr&amp;lt;/groupId&amp;gt;&#xD;
+        &amp;lt;artifactId&amp;gt;initializr-web&amp;lt;/artifactId&amp;gt;&#xD;
+    &amp;lt;/dependency&amp;gt;&#xD;
+    &amp;lt;dependency&amp;gt;&#xD;
+        &amp;lt;groupId&amp;gt;io.spring.initializr&amp;lt;/groupId&amp;gt;&#xD;
+        &amp;lt;artifactId&amp;gt;initializr-generator-spring&amp;lt;/artifactId&amp;gt;&#xD;
+    &amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;initializr-web&lt;/code&gt; dependency is bringing in predetermined application generation endpoints which IDEs can talk to, and the &lt;code&gt;initializr-generator-spring&lt;/code&gt; brings in preset opinions about how to build Spring Boot projects (which we want). Now we’re ready to customize the Axon Initializr.&lt;/p&gt;&lt;h3&gt;&lt;a href="#step-three-configure-the-basic-generator-options" class="anchor" name="step-three-configure-the-basic-generator-options"&gt;&lt;/a&gt;Step Three - Configure The Basic Generator Options&lt;/h3&gt;
+&lt;p&gt;The Spring Initializr library can generate application projects based on a host of different choices (language, build tool, etc.). However, in your enterprise, it may be prudent to limit these choices. This way, you can encourage certain approaches. (These are the aforementioned guide rails.) For example, your enterprise may have a preferred database or a preferred messaging platform, so it would complicate things if you offered any others.&lt;/p&gt;
+&lt;p&gt;We configure our Axon Initializr using an &lt;code&gt;application.yaml&lt;/code&gt; file. In our axon-initializr project, rename the &lt;code&gt;src/main/resources/application.properties&lt;/code&gt; file to &lt;code&gt;application.yaml&lt;/code&gt;. Then, start customizing by adding the following YAML configuration:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint yaml"&gt;initializr:&#xD;
+ name:&#xD;
+   value: axon&#xD;
+ description:&#xD;
+   value: &amp;#39;An Axon Framework Sample Application&amp;#39;&#xD;
+ group-id:&#xD;
+   value: com.benwilcock&#xD;
+  artifact-id:&#xD;
+   value: axon-app&#xD;
+ javaVersions:&#xD;
+   - id: 11&#xD;
+     default: false&#xD;
+   - id: 1.8&#xD;
+     default: true&#xD;
+ languages:&#xD;
+   - name: Java&#xD;
+     id: java&#xD;
+     default: true&#xD;
+   - name: Kotlin&#xD;
+     id: kotlin&#xD;
+     default: false&#xD;
+ packagings:&#xD;
+   - name: Jar&#xD;
+     id: jar&#xD;
+     default: true&#xD;
+ types:&#xD;
+   - name: Maven Project&#xD;
+     id: maven-project&#xD;
+     description: Generate a Maven-based project archive&#xD;
+     tags:&#xD;
+       build: maven&#xD;
+       format: project&#xD;
+     default: true&#xD;
+     action: /starter.zip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These “initializr:” parameters configure our application generator by specifying the available choices for:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Java Versions (just 8 &amp;amp; 11 for now)&lt;/li&gt;
+  &lt;li&gt;Languages (Java and Kotlin, but not Groovy)&lt;/li&gt;
+  &lt;li&gt;Build and packaging (Maven and JAR, respectively).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You’ll notice &lt;code&gt;default: true&lt;/code&gt;, on some items. This setting automatically promotes our preferred options when no choice has been made.&lt;/p&gt;
+&lt;p&gt;Let’s run a simple test, to make sure we’re on track. First, build and run the new initializr project with the command:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint bash"&gt;./mvnw package spring-boot:run
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, in a separate terminal, use cURL to access the initializr help:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint bash"&gt;curl http://localhost:8080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The output in your terminal window should look similar to the screenshot below:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://static.spring.io/blog/bwilcock/20191001/terminal.png" alt="Sample terminal output from the half-built axon-initializr" title="Terminal output showing that our application shell started up" /&gt;&lt;/p&gt;
+&lt;p&gt;This confirms the &lt;code&gt;axon-initializr&lt;/code&gt; started up as expected and incorporated the desired Spring Initializr libraries. But it’s not yet ready to start generating Spring or Axon applications. Use &lt;code&gt;Ctrl-C&lt;/code&gt; in the first terminal window to stop the &lt;code&gt;axon-initializr&lt;/code&gt;, and we’ll continue with our customization.&lt;/p&gt;&lt;h3&gt;&lt;a href="#step-4-add-spring-libraries" class="anchor" name="step-4-add-spring-libraries"&gt;&lt;/a&gt;Step 4 - Add Spring Libraries&lt;/h3&gt;
+&lt;p&gt;Adding regular Spring libraries is easy. We simply create an entry for each library in our YAML configuration’s &lt;code&gt;dependencies:&lt;/code&gt; list. The downside: YAML is quite verbose. I’ll just show one entry here for the Spring Web project to get you started. (The rest are &lt;a href="https://github.com/benwilcock/axon-initializr"&gt;in GitHub&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;Dependency entries start with a &lt;code&gt;name&lt;/code&gt; followed by a list of &lt;code&gt;content&lt;/code&gt; items. In the example below, you’ll see the &lt;code&gt;Web&lt;/code&gt; dependencies group, and then an entry for &lt;code&gt;Spring Web&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint yaml"&gt;initializr:&#xD;
+ #...(omitted the previous stuff here to save space)&#xD;
+ dependencies:&#xD;
+   - name: Web&#xD;
+     content:&#xD;
+       - name: Spring Web&#xD;
+         id: web&#xD;
+         description: Build web, including RESTful, applications using Spring MVC. Uses Apache Tomcat as the default embedded container.&#xD;
+          facets:&#xD;
+            - web&#xD;
+            - json&#xD;
+         links:&#xD;
+           - rel: guide&#xD;
+             href: https://spring.io/guides/gs/rest-service/&#xD;
+             description: Building a RESTful Web Service&#xD;
+           - rel: reference&#xD;
+             href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#boot-features-developing-web-applications&#xD;
+           - rel: guide&#xD;
+             href: https://spring.io/guides/gs/serving-web-content/&#xD;
+             description: Serving Web Content with Spring MVC&#xD;
+           - rel: guide&#xD;
+             href: https://spring.io/guides/tutorials/bookmarks/&#xD;
+             description: Building REST services with Spring
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;You can copy any other Spring related entries you like from &lt;a href="https://github.com/spring-io/start.spring.io/blob/master/start-site/src/main/resources/application.yml"&gt;this example YAML&lt;/a&gt; file taken from the start.spring.io configuration. &lt;/p&gt;
+&lt;/blockquote&gt;&lt;h3&gt;&lt;a href="#step-five-add-the-axon-custom-libraries" class="anchor" name="step-five-add-the-axon-custom-libraries"&gt;&lt;/a&gt;Step Five - Add The Axon Custom Libraries&lt;/h3&gt;
+&lt;p&gt;This is the last configuration step! For our Axon Initializr, we need to add our custom Axon libraries. For brevity, I’ll just add a single Axon library here as an example. But when customizing your initializr you can add as many entries as you need.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint yaml"&gt;initializr:&#xD;
+ dependencies:&#xD;
+   #...(omitted the existing libraries here to save space)&#xD;
+   - name: Axon Tools&#xD;
+     content:&#xD;
+       - name: Axon Framework&#xD;
+         id: axon-starter&#xD;
+         groupId: org.axonframework&#xD;
+         artifactId: axon-spring-boot-starter&#xD;
+         version: 4.2&#xD;
+         description: Brings first-class support for CQRS, Event Sourcing, and DDD to SpringBoot including Commands, Queries, Aggregates, Events, Event Handlers, and more...&#xD;
+          links:&#xD;
+           - rel: axon&#xD;
+             href: https://github.com/AxonFramework&#xD;
+              description: The open-source code repository on GitHub&#xD;
+           - rel: docs&#xD;
+             href: https://docs.axoniq.io/reference-guide/&#xD;
+             description: The reference guide on how to use Axon&#xD;
+           - rel: video-guide&#xD;
+             href: https://www.youtube.com/watch?v=tqn9p8Duy54&amp;amp;list=PL4O1nDpoa5KQkkApGXjKi3rzUW3II5pjm&#xD;
+             description: A full getting started video tutorial for Axon (YouTube).
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You might notice that this configuration looks different from the configuration in step 4. That’s because we’re explicitly calling out the maven coordinates of each library (the &lt;code&gt;groupId&lt;/code&gt;, &lt;code&gt;artifactId&lt;/code&gt;, and &lt;code&gt;version&lt;/code&gt;). We do this because the Axon Framework libraries are outside Spring, so we need to be specific.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;The examples here are just snippets. You can see the complete axon-initializr YAML configuration &lt;a href="https://github.com/benwilcock/axon-initializr"&gt;here on GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;h2&gt;&lt;a href="#try-the-axon-initializr-from-your-ide" class="anchor" name="try-the-axon-initializr-from-your-ide"&gt;&lt;/a&gt;Try The Axon Initializr From Your IDE&lt;/h2&gt;
+&lt;p&gt;Now we’ve added our desired configurations and customizations to the &lt;code&gt;axon-initializr&lt;/code&gt; project it’s time to use it to generate an Axon application in our IDE.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;I’ll use &lt;a href="https://www.jetbrains.com/idea/"&gt;IntelliJ IDEA Ultimate Edition&lt;/a&gt; as my IDE, but the same smooth developer workflow can also be accomplished easily with Eclipse, &lt;a href="https://spring.io/tools"&gt;Spring Tools&lt;/a&gt;, NetBeans, or Visual Studio Code in much the same way.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;First, start the &lt;code&gt;axon-initializr&lt;/code&gt; service in your terminal:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint bash"&gt;./mvnw clean package spring-boot:run
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, start IntelliJ IDEA and choose &lt;code&gt;File → New → Project...&lt;/code&gt; and on the next screen, choose &lt;code&gt;Spring Initializr&lt;/code&gt; as your new project type in the panel on the left. Then, in the center panel switch the service endpoint URL to &lt;code&gt;http://localhost:8080&lt;/code&gt; like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://static.spring.io/blog/bwilcock/20191001/intellij-new-project.png" alt="Beginning a new project in IntelliJ IDEA Ultimate" title="Starting a new project in IntelliJ IDEA&amp;#39;s new project wizard." /&gt;&lt;/p&gt;
+&lt;p&gt;When you click “Next,” you can begin to customize your new Axon based application. Our efforts to standardize are already paying off; the default project name, group id, artifact id, package, packaging, language, java version, and description all come from our default settings in the &lt;code&gt;application.yaml&lt;/code&gt; within the Axon Initializr.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://static.spring.io/blog/bwilcock/20191001/intellij-project-metadata.png" alt="Choosing the basic settings in IntelliJ IDEA" title="Setting the project metadata in IntelliJ IDEA&amp;#39;s new project wizard." /&gt;&lt;/p&gt;
+&lt;p&gt;Finally, after clicking “Next” again, we can configure our (still yet to be generated) Axon application project.&lt;/p&gt;
+&lt;p&gt;We start by adding our desired dependencies from our Axon Initializr&amp;rsquo;s curated list. In the screenshot below, you can see that alongside the various standard Spring libraries like Spring Data JPA and Spring for RabbitMQ (if you added them), we can also select our custom libraries like Axon Framework. It all works seamlessly, mixing our preferred Spring libraries with our custom Axon libraries.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://static.spring.io/blog/bwilcock/20191001/intellij-dependencies.png" alt="Choosing our preferred dependencies in IntelliJ IDEA" title="Choosing dependencies in IntelliJ IDEA&amp;#39;s new project wizard." /&gt;&lt;/p&gt;
+&lt;p&gt;And we’re done. After setting a few more items in IntelliJ IDEA (such as the folder to generate the application into) clicking the “Next” button for the final time will create our new &lt;a href="https://axoniq.io/"&gt;Axon&lt;/a&gt; application project and take us straight into the IDE. From there we can get to work on our CQRS application, adding Commands, Queries, Events, and Aggregates.&lt;/p&gt;&lt;h2&gt;&lt;a href="#wrapping-up" class="anchor" name="wrapping-up"&gt;&lt;/a&gt;Wrapping Up&lt;/h2&gt;
+&lt;p&gt;As you’ve seen, creating a custom application generator using the Spring Initializr as a base is really easy, and it greatly improves our developer experience. By adding your preferred libraries and other customizations, you make it easy for developers to “do the right thing” and give them something that everybody wants - more time to work on the things that really matter!&lt;/p&gt;
+&lt;p&gt;I’ve only scratched the surface of what’s possible with &lt;a href="https://github.com/spring-io/initializr"&gt;Spring Initializr&lt;/a&gt; customization. To find out more about the many other customization options, take a look at the &lt;a href="https://docs.spring.io/initializr/docs/0.8.0.RELEASE/reference/html/"&gt;official documentation&lt;/a&gt;. And finally, don’t forget that the code that accompanies this tutorial can be found &lt;a href="https://github.com/benwilcock/axon-initializr"&gt;here on GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;This article originally appeared on pivotal.io&lt;/em&gt;&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>A Bootiful Podcast: Building China-scale Infrastructure at Alibaba with Spring Cloud, Rsocket, and more</title>
     <link rel="alternate" href="https://spring.io/blog/2020/02/21/a-bootiful-podcast-building-china-scale-infrastructure-at-alibaba-with-spring-cloud-rsocket-and-more" />
@@ -862,46 +1042,6 @@ Spring Security 5.3.0.RC1! You can find the complete details in the &lt;a href="
 &lt;/div&gt;
 &lt;div class="paragraph"&gt;
 &lt;p&gt;&lt;a href="https://github.com/spring-projects/spring-boot-data-geode/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot-data-geode/pulls"&gt;PR&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-boot"&gt;StackOverflow&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Session for Apache Geode &amp; Pivotal GemFire 2.1.8.RELEASE, 2.2.2.RELEASE and 2.3.0.M1 are now available</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/02/01/spring-session-for-apache-geode-pivotal-gemfire-2-1-8-release-2-2-2-release-and-2-3-0-m1-are-now-available" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>John Blum</name>
-    </author>
-    <id>tag:spring.io,2020-02-01:3947</id>
-    <updated>2020-02-01T04:18:00Z</updated>
-    <content type="html">&lt;div class="paragraph"&gt;
-&lt;p&gt;On behalf the &lt;em&gt;Spring&lt;/em&gt;, &lt;em&gt;Apache Geode&lt;/em&gt; and &lt;em&gt;Pivotal GemFire&lt;/em&gt; communities, it is my pleasure to announce the release of &lt;em&gt;Spring Session for Apache Geode and Pivotal GemFire&lt;/em&gt; (SSDG) &lt;code&gt;2.1.8.RELEASE&lt;/code&gt;, &lt;code&gt;2.2.2.RELEASE&lt;/code&gt; as well as the &lt;code&gt;2.3.0.M1&lt;/code&gt; release.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;It should also be noted that SSDG works with &lt;a href="https://pivotal.io/pivotal-cloud-cache"&gt;Pivotal Cloud Cache&lt;/a&gt; as well.  Pivotal Cloud Cache is powered by Apache Geode.  &lt;a href="https://github.com/spring-projects/spring-boot-data-geode#spring-boot-for-apache-geode&amp;#8212;&amp;#8203;pivotal-gemfire"&gt;Spring Boot for Apache Geode&lt;/a&gt; (SBDG) makes configuring and using Spring Session for Pivotal Cloud Cache a simple matter.  See &lt;a href="https://docs.spring.io/spring-boot-data-geode-build/1.2.x/reference/html5/#geode-session"&gt;here&lt;/a&gt; and &lt;a href="https://docs.spring.io/spring-boot-data-geode-build/1.2.x/reference/html5/#geode-session-pcc"&gt;here&lt;/a&gt; for more details.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;SSDG &lt;code&gt;2.1.8.RELEASE&lt;/code&gt; builds on the latest Spring Framework 5.1.13.RELEASE, Spring Data Lovelace-SR15 and Spring Session Bean-SR8 (with Spring Session core 2.1.9.RELEASE) releases along with Apache Geode 1.6.0 and Pivotal GemFire 9.5.4.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;SSDG &lt;code&gt;2.2.2.RELEASE&lt;/code&gt; builds on the latest Spring Framework 5.2.3.RELEASE, Spring Data Moore-SR4 and Spring Session Corn-RELEASE (with Spring Session core 2.2.0.RELEASE) releases along with Apache Geode 1.9.2 and Pivotal GemFire 9.8.4.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;SSDG &lt;code&gt;2.3.0.M1&lt;/code&gt; builds on the latest Spring Framework 5.2.3.RELEASE, Spring Data Neumann-M2 and Spring Session Corn-RELEASE (with Spring Session core 2.2.0.RELEASE) along with Apache Geode 1.11.0 and Pivotal GemFire 9.9.1.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Both SSDG &lt;code&gt;2.1.8.RELEASE&lt;/code&gt; and &lt;code&gt;2.2.2.RELEASE&lt;/code&gt; are available in &lt;a href="https://search.maven.org/artifact/org.springframework.session/spring-session-data-geode"&gt;Maven Central&lt;/a&gt; while SSDG &lt;code&gt;2.3.0.M1&lt;/code&gt; is available in the Spring &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/session/spring-session-data-geode/2.3.0.M1/"&gt;libs-milestone&lt;/a&gt; Repository.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="feedback"&gt;&lt;a class="anchor" href="#feedback"&gt;&lt;/a&gt;Feedback&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;As always, any feedback is welcomed and appreciated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="https://github.com/spring-projects/spring-session-data-geode/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-session-data-geode/pulls"&gt;PR&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-session"&gt;StackOverflow&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

@@ -1,0 +1,26 @@
+package com.blblz.fundoonotes.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.blblz.fundoonotes.dto.CollaboratorDto;
+import com.blblz.fundoonotes.responses.Response;
+import com.blblz.fundoonotes.service.CollaboratorService;
+
+@RestController
+@RequestMapping("/collaborator")
+public class CollaboratorController {
+	
+	@Autowired
+	private CollaboratorService collaboratorService;
+	
+	@PostMapping("/addCollab")
+	private ResponseEntity<Response> addCollaborator(@RequestBody CollaboratorDto collaboratordto) {
+		return null;
+	}
+
+}

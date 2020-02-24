@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.model.LabelModel;
 import com.blblz.fundoonotes.model.NoteModel;
 import com.blblz.fundoonotes.model.UserModel;
 import com.blblz.fundoonotes.repository.NoteRepository;
@@ -153,54 +154,66 @@ public class NoteServiceImpl implements NoteService {
 		return null;
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	public boolean reminder(String token, Long id, String time) {
-	    long userId=tokenGenerator.parseJwtToken(token);
-	    UserModel user = userRepository.findById(userId);
-	    if (user != null) {
-	    	Optional<NoteModel>  note = noteRepository.findById(id);
-	    	if((note.get()).getCreatedBy().equals(userId)) {
-	    		(note.get()).setReminder(time);
-	    		return true;
-	    	}
-	    }
+		long userId = tokenGenerator.parseJwtToken(token);
+		UserModel user = userRepository.findById(userId);
+		if (user != null) {
+			Optional<NoteModel> note = noteRepository.findById(id);
+			if (note.isPresent()) {
+				if (note.get().getCreatedBy()==user) {
+					(note.get()).setReminder(time);
+					noteRepository.save(note.get());
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean addcolor(String token, long id, String color) {
 		try {
-		long userid = tokenGenerator.parseJwtToken(token);
-		UserModel isUserAvailable = userRepository.findById(userid);
-		if(isUserAvailable != null)
-		{
-			NoteModel note = noteRepository.findById(id);
-			if(note != null)
-			{
-				noteRepository.updateColor(userid, id, color);
-				return true;
+			long userid = tokenGenerator.parseJwtToken(token);
+			UserModel isUserAvailable = userRepository.findById(userid);
+			if (isUserAvailable != null) {
+				NoteModel note = noteRepository.findById(id);
+				if (note != null) {
+					noteRepository.updateColor(userid, id, color);
+					return true;
+				}
 			}
-		}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-//	@Override
-//	public List<LabelModel> allLabelofOneNote(String token, long id) {
-//		long userId = tokenGenerator.parseJwtToken(token);
-//		UserModel user = userRepository.findById(userId);
-//		if(user != null)
-//		{
-//			NoteModel note = noteRepository.findById(id);
-//			if(note != null)
-//			{
-//				List<LabelModel> label = noteRepository.getLabelByNoteId(id);
-//				return label;
-//			}
-//		}
-//		return null;
-//	}
+	@Override
+	public List<NoteModel> allPinnedNotes(String token) {
+		long userId = tokenGenerator.parseJwtToken(token);
+		Object isUserAvailable = userRepository.findById(userId);
+		if(isUserAvailable != null)
+		{
+			List<NoteModel> notes = noteRepository.getallpinned(userId);
+			return notes;
+		}
+		return null;
+	}
+
+	@Override
+	public List<LabelModel> allLabelofOneNote(String token, long id) {
+		long userId = tokenGenerator.parseJwtToken(token);
+		UserModel user = userRepository.findById(userId);
+		if(user != null)
+		{
+			NoteModel note = noteRepository.findById(id);
+			if(note != null)
+			{
+				List<LabelModel> label = noteRepository.findById(id).getLabels();
+				return label;
+			}
+		}
+		return null;
+	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.blblz.fundoonotes.model.LabelModel;
 import com.blblz.fundoonotes.model.NoteModel;
 
 @Repository
@@ -57,7 +58,10 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 	@Query(value = "update note set note_color = :color where user_id = :userid and id = :id", nativeQuery = true)
 	void updateColor(long userid, long id, String color);
 
-//	@Query(name = "tofindlabelfornote", nativeQuery = true)
-//	List<LabelModel> getLabelByNoteId(long id);
+	@Query(value = "select * from note where user_id=:userId and id=:noteId", nativeQuery = true)
+	List<NoteModel> searchAllNotesByNoteId(long userId, Long noteId);
+
+	@Query(value = "select * from note where user_id = :userId and is_pinned = true", nativeQuery = true)
+	List<NoteModel> getallpinned(Long userId);
 	
 }

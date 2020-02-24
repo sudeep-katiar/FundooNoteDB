@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blblz.fundoonotes.dto.NoteDto;
+import com.blblz.fundoonotes.model.LabelModel;
 import com.blblz.fundoonotes.model.NoteModel;
 import com.blblz.fundoonotes.responses.Response;
 import com.blblz.fundoonotes.service.NoteService;
@@ -95,6 +97,13 @@ public class NoteController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("Something went wrong", 400));
 		}
 	}
+	
+	@PostMapping("getpinnednotes")
+	private ResponseEntity<Response> getPinnedNotes(@RequestHeader("token") String token) {
+		
+		List<NoteModel> notesList = noteservice.allPinnedNotes(token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "all notes of user", notesList));
+	}
 
 	@PostMapping("/archive/{id}")
 	private ResponseEntity<Response> archive(@PathVariable("id") long id, @RequestHeader("token") String token) {
@@ -133,10 +142,11 @@ public class NoteController {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("something went wrong", 400));
 	}
 	
-	public ResponseEntity<Response> collaborator()
-	{
-		
-		return null;
+	@GetMapping("/getnotelabels")
+	public ResponseEntity<Response> getAllNoteLabels(@RequestHeader("token") String token,
+			@RequestParam("noteId") long noteId) {
+		List<LabelModel> noteList = noteservice.allLabelofOneNote(token, noteId);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response( 200,"Labels releated to current Note are", noteList));
 	}
 	
 	public ResponseEntity<Response> sort()

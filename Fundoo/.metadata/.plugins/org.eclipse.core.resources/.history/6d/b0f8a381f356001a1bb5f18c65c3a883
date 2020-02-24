@@ -1,0 +1,14 @@
+package com.blblz.fundoonotes.serviceimplementation;
+
+import com.blblz.fundoonotes.dto.CollaboratorDto;
+import com.blblz.fundoonotes.service.CollaboratorService;
+
+public class CollaboratorServiceImpl implements CollaboratorService {
+
+	@Override
+	public boolean addCollaborator(CollaboratorDto collaboratorDto, String token, long noteId) {
+		
+		return false;
+	}
+
+}
