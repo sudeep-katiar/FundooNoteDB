@@ -1,0 +1,5 @@
+package com.blblz.fundoonotes.repository;
+
+public class ProfilePicRepository {
+
+}

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.springframework.ide.eclipse.boot.launch">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/FundooNotes/src/main/java/com/blblz/fundoonotes/FundooNotesApplication.java"/>
+<listEntry value="/FundooNotes/src/main/java/com/bridgelabz/fundoonotes/FundooNotesApplication.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="aws.accessKey" value="4LE00Qoo1O0abVYWP1rx3Uo4NauJ76G1GUKQfrOK"/>
+<mapEntry key="aws.bucket.name" value="fundoonotes-blblz"/>
+<mapEntry key="aws.keyId" value="AKIA2C3MVT7MKUGLDI67"/>
+<mapEntry key="aws.region" value="ap-south-1"/>
 <mapEntry key="passWord" value="9437163688"/>
 <mapEntry key="userName" value="sudeepkatiar@gmail.com"/>
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.springframework.ide.eclipse.boot.launch.BootMavenClassPathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.blblz.fundoonotes.FundooNotesApplication"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.bridgelabz.fundoonotes.FundooNotesApplication"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="FundooNotes"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.springframework.ide.eclipse.boot.launch.BootMavenSourcePathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.security.egd=file:/dev/./urandom"/>
