@@ -23,8 +23,8 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 	NoteModel findByuserid(long userid);
 
 	@Modifying
-	@Query(value = "insert into note (content, created_at,  title, updated_at, user_id) values ( :content, :createdAt, :title, :updatedAt, :id)" , nativeQuery = true)
-	public void insertData(String content, Date createdAt, String title, Date updatedAt, long id);
+	@Query(value = "insert into note (content, created_at,  title, updated_at, user_id, note_color, is_archived, is_deleted, is_pinned, reminder, reminder_status) values ( :content, :createdAt, :title, :updatedAt, :id, :color, :isarchived, :isdeleted, :ispinned, :reminder, :reminderstatus)" , nativeQuery = true)
+	public void insertData(String content, Date createdAt, String title, Date updatedAt, long id, String color, boolean isarchived, boolean isdeleted, boolean ispinned, String reminder, boolean reminderstatus);
 
 	@Modifying
 	@Query(value = "update note set is_deleted = :b where user_id = :userid AND id = :id" ,  nativeQuery = true)
@@ -60,10 +60,10 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 	@Query(value = "select * from note where user_id=:userId and id=:noteId", nativeQuery = true)
 	List<NoteModel> searchAllNotesByNoteId(long userId, Long noteId);
 
-	@Query(value = "select * from note where user_id = :userId and is_pinned = true", nativeQuery = true)
+	@Query(value = "select * from note where user_id = :userId and is_pinned = true and is_deleted = false and is_archived = false", nativeQuery = true)
 	List<NoteModel> getallpinned(Long userId);
 
-	@Query(value = "select * from note where user_id = :userId and is_pinned = false", nativeQuery = true)
+	@Query(value = "select * from note where user_id = :userId and is_pinned = false and is_deleted = false and is_archived = false", nativeQuery = true)
 	List<NoteModel> getallunpinned(Long userId);
 
 	@Query(value = "select * from note where user_id = :userId and is_archived = true", nativeQuery = true)

@@ -121,9 +121,9 @@ public class NoteController {
 	/*
 	 * API to pin and unpin notes
 	 */
-	@PostMapping("/pinunpin/{id}")
+	@PostMapping("/pinunpin")
 	@ApiOperation(value = "Api to pin or unpin note for Fundoonotes", response = Response.class)
-	public ResponseEntity<Response> pin(@RequestHeader("token") String token, @PathVariable("id") long id) {
+	public ResponseEntity<Response> pin(@RequestHeader("token") String token, @RequestParam("id") long id) {
 		int result = noteservice.pin(token, id);
 		if (result == 1) {
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("succussfully unPinned", 200));
@@ -196,7 +196,7 @@ public class NoteController {
 	/*
 	 * API to get all notes
 	 */
-	@GetMapping("/allnotes")
+	@PostMapping("/allnotes")
 	@ApiOperation(value = "Api to get all note for Fundoonotes", response = Response.class)
 	public ResponseEntity<Response> getAllNotes(@RequestHeader("token") String token)  {
 		List<NoteModel> notesList = noteservice.getAllNotes(token);

@@ -49,7 +49,8 @@ public class NoteModel {
 
 	private String reminder;
 
-	private String reminderStatus;
+	@Column(columnDefinition = "boolean default false")
+	private boolean reminderStatus;
 	
 	@ManyToMany
 	@JsonIgnore
@@ -137,17 +138,30 @@ public class NoteModel {
 		this.reminder = time;
 	}
 
-	public String getReminderStatus() {
+	public boolean getReminderStatus() {
 		return reminderStatus;
 	}
 
-	public void setReminderStatus(String reminderStatus) {
+	public void setReminderStatus(boolean reminderStatus) {
 		this.reminderStatus = reminderStatus;
 	}
 	
+	public NoteModel(String title, String content, boolean isPinned, boolean isArchived, boolean isDeleted,
+			String noteColor, String reminder, boolean reminderStatus) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.isPinned = isPinned;
+		this.isArchived = isArchived;
+		this.isDeleted = isDeleted;
+		NoteColor = noteColor;
+		this.reminder = reminder;
+		this.reminderStatus = reminderStatus;
+	}
+
 	public NoteModel(long id, String title, String content, boolean isPinned, boolean isArchived, boolean isDeleted,
 			Date createdAt, Date updatedAt, UserModel createdBy, String noteColor, String reminder,
-			String reminderStatus) {
+			boolean reminderStatus) {
 		super();
 		this.id = id;
 		this.title = title;

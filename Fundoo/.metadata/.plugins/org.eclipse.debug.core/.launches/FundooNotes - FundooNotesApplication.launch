@@ -7,9 +7,9 @@
 <listEntry value="1"/>
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
-<mapEntry key="aws.accessKey" value="4LE00Qoo1O0abVYWP1rx3Uo4NauJ76G1GUKQfrOK"/>
-<mapEntry key="aws.bucket.name" value="fundoonotes-blblz"/>
-<mapEntry key="aws.keyId" value="AKIA2C3MVT7MKUGLDI67"/>
+<mapEntry key="aws.accessKey" value="mE4IWu/FnOjGpfGUynytODOp8bU4tzY0cNrL27qu"/>
+<mapEntry key="aws.bucket.name" value="profile-pic-sk"/>
+<mapEntry key="aws.keyId" value="AKIA2C3MVT7MJ53D4RU7"/>
 <mapEntry key="aws.region" value="ap-south-1"/>
 <mapEntry key="passWord" value="9437163688"/>
 <mapEntry key="userName" value="sudeepkatiar@gmail.com"/>
