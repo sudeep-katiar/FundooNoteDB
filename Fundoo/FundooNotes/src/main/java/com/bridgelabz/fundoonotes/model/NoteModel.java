@@ -44,7 +44,7 @@ public class NoteModel {
 	@JoinColumn(name = "userId")
 	private UserModel createdBy;
 
-	@Column(columnDefinition = "varchar(10) default '#ffffff'")
+	@Column(columnDefinition = "varchar(100) default '#ffffff'")
 	private String NoteColor;
 
 	private String reminder;

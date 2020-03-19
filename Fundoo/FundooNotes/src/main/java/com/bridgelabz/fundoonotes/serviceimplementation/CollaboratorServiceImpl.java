@@ -17,6 +17,15 @@ import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.service.CollaboratorService;
 import com.bridgelabz.fundoonotes.utility.Jwt;
 
+/**
+ * This class has the implemented functionality of adding collaborator,
+ * updating status of collaborator, adding collaborator to note functionality of the user's
+ * note after verifying with the identity.
+ * 
+ * @author Sudeep Kumar Katiar
+ * @created 2020-01-24
+ * @version 1.0
+ */
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
 
@@ -35,7 +44,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 	@Override
 	public CollaboratorModel addCollaborator(CollaboratorDto collaboratorDto, String token, long noteId) {
 		long userId = jwtGenerator.parseJwtToken(token);
-		UserModel user = userRepository.findById(userId);
+		Optional<UserModel> user = userRepository.findById(userId);
 		if (user != null) {
 			CollaboratorModel collaborator = new CollaboratorModel();
 			collaborator.setEmail(collaboratorDto.getEmail());
@@ -55,7 +64,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 	@Override
 	public Optional<CollaboratorModel> deleteCollaborator(Long collaboratorId, String token, Long noteId) {
 		long userId = jwtGenerator.parseJwtToken(token);
-		UserModel user = userRepository.findById(userId);
+		Optional<UserModel> user = userRepository.findById(userId);
 		if (user != null) {
 			Optional<NoteModel> note = noteRepository.findById(noteId);
 			if (note != null) {

@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.serviceimplementation;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +47,7 @@ public class ProfilePicServiceImpl implements ProfilePicService {
 		try {
 			System.out.println(contentType+" "+fileName);
 			long userId = jwtGenerator.parseJwtToken(token);
-			UserModel user = userRepository.findById(userId);
+			UserModel user = userRepository.findbyId(userId);
 			if (user != null) {
 				ProfilePic profile = new ProfilePic(fileName, user);
 				ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -69,7 +70,7 @@ public class ProfilePicServiceImpl implements ProfilePicService {
 	public ProfilePic updateProfilePic(MultipartFile file, String originalFile,String contentType,String token) {
 		try {
 			long userId=jwtGenerator.parseJwtToken(token);
-			UserModel user=userRepository.findById(userId);
+			UserModel user=userRepository.findbyId(userId);
 			System.out.println(user.getEmail());
 			ProfilePic profile=profilePicRepository.findByUserId(userId);
 			System.out.println(profile.getProfilePicName());
@@ -107,7 +108,7 @@ public class ProfilePicServiceImpl implements ProfilePicService {
 	public S3Object getProfilePic(MultipartFile file, String token) {
 		try {
 			long userId = jwtGenerator.parseJwtToken(token);
-			UserModel user = userRepository.findById(userId);
+			Optional<UserModel> user = userRepository.findById(userId);
 			if (user != null) {
 				ProfilePic profile = profilePicRepository.findByUserId(userId);
 				if (profile != null) {

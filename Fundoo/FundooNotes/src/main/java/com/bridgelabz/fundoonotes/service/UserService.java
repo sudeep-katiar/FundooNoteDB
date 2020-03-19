@@ -7,6 +7,16 @@ import com.bridgelabz.fundoonotes.dto.ResetPasswordDto;
 import com.bridgelabz.fundoonotes.dto.UserDto;
 import com.bridgelabz.fundoonotes.model.UserModel;
 
+/**
+ * This interface has the unimplemented functionality of registering the user
+ * and verifying with the identity, login, forget password and update password
+ * functionality.
+ * 
+ * @author Sudeep Kumar Katiar
+ * @created 2019-12-30
+ * @version 1.0
+ */
+
 @Component
 public interface UserService {
 	

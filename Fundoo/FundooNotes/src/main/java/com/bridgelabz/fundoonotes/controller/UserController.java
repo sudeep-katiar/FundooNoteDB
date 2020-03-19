@@ -60,7 +60,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "registration successfull", user));
 		} else {
 			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED)
-					.body(new Response(400, "user already exist", userdto));
+					.body(new Response(208, "user already exist", userdto));
 		}
 
 	}
@@ -93,7 +93,7 @@ public class UserController {
 		if (user != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("verified", 200));
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("not verified", 400));
+		return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(new Response("not verified", 304));
 
 	}
 

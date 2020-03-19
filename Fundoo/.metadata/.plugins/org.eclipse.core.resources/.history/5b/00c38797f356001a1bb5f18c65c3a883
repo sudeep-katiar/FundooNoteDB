@@ -1,9 +1,0 @@
-package com.blblz.fundoonotes.service;
-
-import com.blblz.fundoonotes.dto.CollaboratorDto;
-
-public interface CollaboratorService {
-
-	boolean addCollaborator(CollaboratorDto collaboratorDto, String token, long noteId);
-
-}

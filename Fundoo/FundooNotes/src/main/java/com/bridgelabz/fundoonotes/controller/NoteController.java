@@ -50,7 +50,7 @@ public class NoteController {
 	@ApiOperation(value = "Api to delete or restore note for Fundoonotes", response = Response.class)
 	public ResponseEntity<Response> deleteNote(@RequestHeader("token") String token, @PathVariable("id") long id) {
 
-		int result = noteservice.deleteNote(token, id);
+		int result = noteservice.trashNote(token, id);
 		if (result == 1) {
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("successfully restored", 200));
 		} else if (result == 0) {
@@ -229,11 +229,19 @@ public class NoteController {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("something went wrong", 400));
 	}
 	
+	@GetMapping("/getallreminder")
+	@ApiOperation(value = "Api to get all reminder notes for Fundoonotes", response = Response.class)
+	public ResponseEntity<Response> getAllReminder(@RequestHeader("token") String token) {
+		List<NoteModel> notesList = noteservice.allReminderNotes(token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "all notes of user", notesList));
+		
+	}
+	
 	/*
 	 * API to get all label of a note
 	 */
 	@GetMapping("/getnotelabels")
-	@ApiOperation(value = "Api to add all label of one note for Fundoonotes", response = Response.class)
+	@ApiOperation(value = "Api to get add label of one note for Fundoonotes", response = Response.class)
 	public ResponseEntity<Response> getAllNoteLabels(@RequestHeader("token") String token,
 			@RequestParam("noteId") long noteId) {
 		List<LabelModel> noteList = noteservice.allLabelofOneNote(token, noteId);

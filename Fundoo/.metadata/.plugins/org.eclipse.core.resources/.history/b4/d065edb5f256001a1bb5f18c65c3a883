@@ -1,7 +1,0 @@
-package com.blblz.fundoonotes.serviceimplementation;
-
-import com.blblz.fundoonotes.service.CollaboratorService;
-
-public class CollaboratorServiceImpl implements CollaboratorService {
-
-}

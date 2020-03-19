@@ -1,9 +1,0 @@
-package com.blblz.fundoonotes.service;
-
-import com.blblz.fundoonotes.dto.UserDto;
-
-public interface UserService {
-	
-	String addUser(UserDto userdto);
-
-}

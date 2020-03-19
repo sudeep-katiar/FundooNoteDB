@@ -66,7 +66,7 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 	@Query(value = "select * from note where user_id = :userId and is_pinned = false and is_deleted = false and is_archived = false", nativeQuery = true)
 	List<NoteModel> getallunpinned(Long userId);
 
-	@Query(value = "select * from note where user_id = :userId and is_archived = true", nativeQuery = true)
+	@Query(value = "select * from note where user_id = :userId and is_archived = true and is_deleted = false", nativeQuery = true)
 	List<NoteModel> getallarchived(Long userId);
 
 	@Query(value = "select * from note where user_id = :userId and is_archived = false", nativeQuery = true)
@@ -74,5 +74,8 @@ public interface NoteRepository extends JpaRepository<NoteModel, Long> {
 
 	@Query(value = "select * from note where user_id = :userId and is_deleted = true", nativeQuery = true)
 	List<NoteModel> getalltrashed(Long userId);
+	
+	@Query(value = "select * from note where user_id = :userId and reminder_status = true", nativeQuery = true)
+	List<NoteModel> getallreminder(Long userId);
 	
 }

@@ -1,8 +1,11 @@
 package com.bridgelabz.fundoonotes.serviceimplementation;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundoonotes.dto.LabelDto;
@@ -15,7 +18,19 @@ import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.service.LabelService;
 import com.bridgelabz.fundoonotes.utility.Jwt;
 
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * This class has the implemented functionality of creating label,
+ * updating status of label, adding label to note functionality of the user's
+ * note after verifying with the identity.
+ * 
+ * @author Sudeep Kumar Katiar
+ * @created 2020-01-16
+ * @version 1.0
+ */
 @Service
+@Slf4j
 public class LabelServiceImpl implements LabelService {
 	
 	@Autowired
@@ -29,11 +44,15 @@ public class LabelServiceImpl implements LabelService {
 	
 	@Autowired
 	private LabelRepository labelrepository;
+	
+	@Autowired
+	private RedisTemplate<String, Object> redis;
 
 	@Override
 	public int createLabel(LabelDto labeldto, String token) {
-		long userId = tokenGenerator.parseJwtToken(token);
-		UserModel isUserAvailable = userrepository.findById(userId);
+		long userId = getRedisCecheId(token);
+//		long userId = tokenGenerator.parseJwtToken(token);
+		Optional<UserModel> isUserAvailable = userrepository.findById(userId);
 		if(isUserAvailable != null)
 		{
 			String labelname = labeldto.getLabelTitle();
@@ -50,7 +69,7 @@ public class LabelServiceImpl implements LabelService {
 	@Override
 	public boolean updateLabel(LabelDto labeldto, String token, long labelId) {
 		long userId = tokenGenerator.parseJwtToken(token);
-		UserModel user = userrepository.findById(userId);
+		Optional<UserModel> user = userrepository.findById(userId);
 		if(user != null)
 		{
 			LabelModel label = labelrepository.findById(labelId, userId);
@@ -67,7 +86,7 @@ public class LabelServiceImpl implements LabelService {
 	@Override
 	public boolean deleteLabel(String token, long labelId) {
 		long userId = tokenGenerator.parseJwtToken(token);
-		UserModel user = userrepository.findById(userId);
+		Optional<UserModel> user = userrepository.findById(userId);
 		if(user != null)
 		{
 			LabelModel label = labelrepository.findById(labelId, userId);
@@ -83,7 +102,7 @@ public class LabelServiceImpl implements LabelService {
 	@Override
 	public List<LabelModel> getAllLabel(String token) {
 		long userId = tokenGenerator.parseJwtToken(token);
-		UserModel user = userrepository.findById(userId);
+		Optional<UserModel> user = userrepository.findById(userId);
 		if(user != null)
 		{
 			List<LabelModel> labeldata = labelrepository.getall(userId);
@@ -95,7 +114,7 @@ public class LabelServiceImpl implements LabelService {
 	@Override
 	public LabelModel createOrMapWithNote(LabelDto labeldto, long noteid, String token) {
 		long userId = tokenGenerator.parseJwtToken(token);
-		UserModel isUserAvailable = userrepository.findById(userId);
+		Optional<UserModel> isUserAvailable = userrepository.findById(userId);
 		if(isUserAvailable != null)
 		{
 			NoteModel noteInfo = noterepository.findById(noteid);
@@ -128,7 +147,7 @@ public class LabelServiceImpl implements LabelService {
 	@Override
 	public LabelModel addLabelsToNote(String token, long labelid, long noteid) {
 		long userId = tokenGenerator.parseJwtToken(token);
-		UserModel user = userrepository.findById(userId);
+		Optional<UserModel> user = userrepository.findById(userId);
 		if(user != null)
 		{
 			NoteModel note = noterepository.findById(noteid);
@@ -147,6 +166,18 @@ public class LabelServiceImpl implements LabelService {
 			}
 		}
 		return null;
+	}
+	
+	private Long getRedisCecheId(String token) {
+		String[] splitedToken = token.split("\\.");
+		String redisTokenKey = splitedToken[1] + splitedToken[2];
+		if (redis.opsForValue().get(redisTokenKey) == null) {
+			Long idForRedis = tokenGenerator.parseJwtToken(token);
+			log.info("idForRedis is :" + idForRedis);
+			redis.opsForValue().set(redisTokenKey, idForRedis, 3 * 60, TimeUnit.SECONDS);
+		}
+		Long userId = (Long) redis.opsForValue().get(redisTokenKey);
+		return userId;
 	}
 
 }

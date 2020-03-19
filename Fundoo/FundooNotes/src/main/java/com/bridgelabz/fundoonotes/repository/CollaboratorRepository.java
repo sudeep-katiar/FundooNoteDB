@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -24,7 +25,7 @@ public interface CollaboratorRepository extends JpaRepository<CollaboratorModel,
 	void addCollaborator(long id,String email,Long noteid);
 	
 	@Query(value = "select * from collaborator where id=?",nativeQuery=true)
-	CollaboratorModel findById(long id);
+	Optional<CollaboratorModel> findById(long id);
 
 	@Transactional
 	@Modifying

@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 	UserModel findEmail(String email);
 	
 	@Query(value = "select * from user_model where id = :id", nativeQuery = true)
-	UserModel findById(long id);
+	UserModel findbyId(long id);
 
 	@Modifying
 	@Query(value="Insert into user_model (creator_stamp,email,firstname,is_verified,lastname,mobile,password,username) values (:creator_stamp,:email,:firstname,:is_verified,:lastname,:mobile,:password,:username)",nativeQuery = true)

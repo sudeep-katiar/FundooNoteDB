@@ -6,13 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundoonotes.dto.CollaboratorDto;
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/collaborator")
+@CrossOrigin(allowedHeaders = "*", origins = "*", exposedHeaders = { "jwtToken" })
 public class CollaboratorController {
 	
 	@Autowired
@@ -32,9 +34,12 @@ public class CollaboratorController {
 	/*
 	 * API to add collaborator
 	 */
-	@PostMapping("/addCollaborator/{noteId}")
+	@PostMapping("/addCollaborator")
 	@ApiOperation(value = "Api to add collaborator for Fundoonotes", response = Response.class)
-	private ResponseEntity<Response> addCollaborator(@RequestBody CollaboratorDto collaboratorDto, @PathVariable("noteId") long noteId, @RequestHeader("token") String token) {
+	private ResponseEntity<Response> addCollaborator(@RequestParam("email") String email, @RequestParam("noteId") long noteId, @RequestHeader("token") String token) {
+		
+		CollaboratorDto collaboratorDto=new CollaboratorDto();
+		collaboratorDto.setEmail(email);
 		CollaboratorModel result = collaboratorService.addCollaborator(collaboratorDto, token, noteId);
 		if(result != null)
 			return ResponseEntity.status(HttpStatus.OK).body(new Response(200, "added collabrator sucessfully!!!", result));
