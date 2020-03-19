@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * unimplemented functionality of creating a note, updating, deleting and all.
  * All operations will be carried out if the user is a valid user.
  * 
- * @author Durgasankar Mishra
+ * @author SUdeep Kumar Katiar
  * @created 2020-01-10
  * @version 1.0
  * @modified -> optimized code for authentication of user and validation of note
